@@ -40,6 +40,7 @@ class ImageTagger:
 			raise ValueError(f"Unsupported model: {model_name}")
 	
 	def tag_image(self, image_path=None, output_file=None, top_k=5, labels=None):
+		
 		try:
 			logger.debug("Przetwarzanie obrazu...")
 			

@@ -1,0 +1,143 @@
+[
+    {
+        "file": "images/SS_tekstu.png",
+        "tags": [
+            {
+                "tag": "web_site",
+                "probability": 0.16421134769916534
+            },
+            {
+                "tag": "text",
+                "probability": 0.15162406861782074
+            },
+            {
+                "tag": "how_to",
+                "probability": 0.11091192066669464
+            },
+            {
+                "tag": "screenshot",
+                "probability": 0.10761502385139465
+            },
+            {
+                "tag": "screenshot",
+                "probability": 0.10761481523513794
+            },
+            {
+                "tag": "meme",
+                "probability": 0.07725271582603455
+            },
+            {
+                "tag": "image",
+                "probability": 0.043715815991163254
+            },
+            {
+                "tag": "document",
+                "probability": 0.04030778631567955
+            },
+            {
+                "tag": "person",
+                "probability": 0.034377921372652054
+            },
+            {
+                "tag": "people",
+                "probability": 0.030868643894791603
+            },
+            {
+                "tag": "plot",
+                "probability": 0.028750576078891754
+            },
+            {
+                "tag": "winner",
+                "probability": 0.021770315244793892
+            },
+            {
+                "tag": "photo",
+                "probability": 0.020766088739037514
+            },
+            {
+                "tag": "group",
+                "probability": 0.012658320367336273
+            },
+            {
+                "tag": "graphic",
+                "probability": 0.00959730427712202
+            },
+            {
+                "tag": "picture",
+                "probability": 0.0058126491494476795
+            },
+            {
+                "tag": "table",
+                "probability": 0.004349945578724146
+            },
+            {
+                "tag": "teamwork",
+                "probability": 0.0042086075991392136
+            },
+            {
+                "tag": "house",
+                "probability": 0.004079083446413279
+            },
+            {
+                "tag": "instruction",
+                "probability": 0.004015559796243906
+            },
+            {
+                "tag": "other",
+                "probability": 0.003433164209127426
+            },
+            {
+                "tag": "fun",
+                "probability": 0.0031363170128315687
+            },
+            {
+                "tag": "team",
+                "probability": 0.002290673553943634
+            },
+            {
+                "tag": "diagram",
+                "probability": 0.0009791891789063811
+            },
+            {
+                "tag": "chart",
+                "probability": 0.0008691846742294729
+            },
+            {
+                "tag": "loser",
+                "probability": 0.0008161761215887964
+            },
+            {
+                "tag": "car",
+                "probability": 0.0007636251975782216
+            },
+            {
+                "tag": "landscape",
+                "probability": 0.0006810192135162652
+            },
+            {
+                "tag": "photograph",
+                "probability": 0.0006786113372072577
+            },
+            {
+                "tag": "family",
+                "probability": 0.00047137020737864077
+            },
+            {
+                "tag": "friends",
+                "probability": 0.0004115553747396916
+            },
+            {
+                "tag": "selfie",
+                "probability": 0.00037844103644602
+            },
+            {
+                "tag": "drawing",
+                "probability": 0.0003144695656374097
+            },
+            {
+                "tag": "together",
+                "probability": 0.00026763926143758
+            }
+        ]
+    }
+]

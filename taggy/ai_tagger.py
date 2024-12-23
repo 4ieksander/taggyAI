@@ -2,18 +2,26 @@
 Klasa ImageTagger oparta na modelu CLIP, obsługująca wczytywanie
 i przetwarzanie obrazów w celu przypisywania etykiet.
 """
-
+import json
 import os
 import torch
 import clip
 from PIL import Image
 import numpy as np
-
+import piexif
 from utils.logger import get_logger
 
 logger = get_logger(__name__)
 
 
+def save_metadata_to_file(output_path, metadata):
+	"""
+	Zapisuje metadane w formacie JSON.
+	"""
+	with open(output_path, 'w') as json_file:
+		json.dump([metadata], json_file, indent=4)
+		logger.info(f"Metadane zapisane do pliku: {output_path}")
+		
 class ImageTagger:
 	def __init__(self, model_name="CLIP"):
 		self.model_name = model_name
@@ -25,12 +33,22 @@ class ImageTagger:
 		else:
 			raise ValueError(f"Unsupported model: {model_name}")
 
-	def tag_image(self, image_path=None, output_file=None, top_k=5, labels=None):
+	def tag_image(self, image_path=None, output_path=None, top_k=5, labels=None, threshold=0.3):
 		try:
 			if self.model_name == "CLIP":
 				if not labels:
 					labels = ["people", "cat", "dog", "meme", "other"]
 				tags = self.predict_with_clip(image_path, labels)
+				
+				assigned_labels = [r["tag"] for r in tags if r["probability"] >= threshold]
+				
+				if output_path and assigned_labels:
+					metadata = {
+						"file": image_path,
+						"tags": tags
+						}
+					save_metadata_to_file(output_path, metadata)
+					
 				return tags
 		except Exception as e:
 			logger.error(f"Błąd: {str(e)}")

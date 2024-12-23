@@ -1,0 +1,27 @@
+[
+    {
+        "file": "images/podium.jpg",
+        "tags": [
+            {
+                "tag": "traffic_light",
+                "probability": 0.14465317130088806
+            },
+            {
+                "tag": "barbershop",
+                "probability": 0.07696419954299927
+            },
+            {
+                "tag": "accordion",
+                "probability": 0.05731530860066414
+            },
+            {
+                "tag": "flagpole",
+                "probability": 0.04191460460424423
+            },
+            {
+                "tag": "chime",
+                "probability": 0.04101414978504181
+            }
+        ]
+    }
+]

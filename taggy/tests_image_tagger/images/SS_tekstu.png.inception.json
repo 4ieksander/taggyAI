@@ -1,0 +1,27 @@
+[
+    {
+        "file": "images/SS_tekstu.png",
+        "tags": [
+            {
+                "tag": "web_site",
+                "probability": 0.8347082734107971
+            },
+            {
+                "tag": "menu",
+                "probability": 0.06129845604300499
+            },
+            {
+                "tag": "envelope",
+                "probability": 0.0027911108918488026
+            },
+            {
+                "tag": "analog_clock",
+                "probability": 0.0014096337836235762
+            },
+            {
+                "tag": "Labrador_retriever",
+                "probability": 0.000784430478233844
+            }
+        ]
+    }
+]

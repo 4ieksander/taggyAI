@@ -1,0 +1,844 @@
+[
+    {
+        "file": "images/podium.jpg",
+        "tags": [
+            {
+                "tag": "traffic_light",
+                "probability": 0.14465317130088806
+            },
+            {
+                "tag": "barbershop",
+                "probability": 0.07696419954299927
+            },
+            {
+                "tag": "accordion",
+                "probability": 0.05731530860066414
+            },
+            {
+                "tag": "flagpole",
+                "probability": 0.04191460460424423
+            },
+            {
+                "tag": "chime",
+                "probability": 0.04101414978504181
+            }
+        ]
+    },
+    {
+        "file": "images/podium.jpg",
+        "tags": [
+            {
+                "tag": "traffic_light",
+                "probability": 0.29061028361320496
+            },
+            {
+                "tag": "totem_pole",
+                "probability": 0.05417697876691818
+            },
+            {
+                "tag": "pole",
+                "probability": 0.0519447885453701
+            },
+            {
+                "tag": "street_sign",
+                "probability": 0.025972740724682808
+            },
+            {
+                "tag": "vending_machine",
+                "probability": 0.010004873387515545
+            }
+        ]
+    },
+    {
+        "file": "images/podium.jpg",
+        "tags": [
+            {
+                "tag": "other",
+                "probability": 0.4602706730365753
+            },
+            {
+                "tag": "meme",
+                "probability": 0.15632197260856628
+            },
+            {
+                "tag": "person",
+                "probability": 0.12975920736789703
+            },
+            {
+                "tag": "selfie",
+                "probability": 0.10432233661413193
+            },
+            {
+                "tag": "house",
+                "probability": 0.08656729012727737
+            },
+            {
+                "tag": "car",
+                "probability": 0.06275846809148788
+            }
+        ]
+    },
+    {
+        "file": "images/podium.jpg",
+        "tags": [
+            {
+                "tag": "traffic_light",
+                "probability": 0.14465317130088806
+            },
+            {
+                "tag": "barbershop",
+                "probability": 0.07696419954299927
+            },
+            {
+                "tag": "accordion",
+                "probability": 0.05731530860066414
+            },
+            {
+                "tag": "flagpole",
+                "probability": 0.04191460460424423
+            },
+            {
+                "tag": "chime",
+                "probability": 0.04101414978504181
+            }
+        ]
+    },
+    {
+        "file": "images/podium.jpg",
+        "tags": [
+            {
+                "tag": "traffic_light",
+                "probability": 0.29061028361320496
+            },
+            {
+                "tag": "totem_pole",
+                "probability": 0.05417697876691818
+            },
+            {
+                "tag": "pole",
+                "probability": 0.0519447885453701
+            },
+            {
+                "tag": "street_sign",
+                "probability": 0.025972740724682808
+            },
+            {
+                "tag": "vending_machine",
+                "probability": 0.010004873387515545
+            }
+        ]
+    },
+    {
+        "file": "images/podium.jpg",
+        "tags": [
+            {
+                "tag": "other",
+                "probability": 0.4602706730365753
+            },
+            {
+                "tag": "meme",
+                "probability": 0.15632197260856628
+            },
+            {
+                "tag": "person",
+                "probability": 0.12975920736789703
+            },
+            {
+                "tag": "selfie",
+                "probability": 0.10432233661413193
+            },
+            {
+                "tag": "house",
+                "probability": 0.08656729012727737
+            },
+            {
+                "tag": "car",
+                "probability": 0.06275846809148788
+            }
+        ]
+    },
+    {
+        "file": "images/podium.jpg",
+        "tags": [
+            {
+                "tag": "traffic_light",
+                "probability": 0.14465317130088806
+            },
+            {
+                "tag": "barbershop",
+                "probability": 0.07696419954299927
+            },
+            {
+                "tag": "accordion",
+                "probability": 0.05731530860066414
+            },
+            {
+                "tag": "flagpole",
+                "probability": 0.04191460460424423
+            },
+            {
+                "tag": "chime",
+                "probability": 0.04101414978504181
+            }
+        ]
+    },
+    {
+        "file": "images/podium.jpg",
+        "tags": [
+            {
+                "tag": "traffic_light",
+                "probability": 0.29061028361320496
+            },
+            {
+                "tag": "totem_pole",
+                "probability": 0.05417697876691818
+            },
+            {
+                "tag": "pole",
+                "probability": 0.0519447885453701
+            },
+            {
+                "tag": "street_sign",
+                "probability": 0.025972740724682808
+            },
+            {
+                "tag": "vending_machine",
+                "probability": 0.010004873387515545
+            }
+        ]
+    },
+    {
+        "file": "images/podium.jpg",
+        "tags": [
+            {
+                "tag": "winners",
+                "probability": 0.22292326390743256
+            },
+            {
+                "tag": "victory",
+                "probability": 0.19211359322071075
+            },
+            {
+                "tag": "winner",
+                "probability": 0.13387690484523773
+            },
+            {
+                "tag": "screenshot",
+                "probability": 0.09178360551595688
+            },
+            {
+                "tag": "group",
+                "probability": 0.07342960685491562
+            },
+            {
+                "tag": "team",
+                "probability": 0.04268740862607956
+            },
+            {
+                "tag": "losers",
+                "probability": 0.03943755850195885
+            },
+            {
+                "tag": "teamwork",
+                "probability": 0.03409925475716591
+            },
+            {
+                "tag": "together",
+                "probability": 0.0327024906873703
+            },
+            {
+                "tag": "fun",
+                "probability": 0.02967481128871441
+            },
+            {
+                "tag": "other",
+                "probability": 0.019735924899578094
+            },
+            {
+                "tag": "successinstruction",
+                "probability": 0.015765072777867317
+            },
+            {
+                "tag": "family",
+                "probability": 0.014009690843522549
+            },
+            {
+                "tag": "loser",
+                "probability": 0.01313540618866682
+            },
+            {
+                "tag": "people",
+                "probability": 0.011140052229166031
+            },
+            {
+                "tag": "friends",
+                "probability": 0.007206084206700325
+            },
+            {
+                "tag": "meme",
+                "probability": 0.006702961400151253
+            },
+            {
+                "tag": "person",
+                "probability": 0.005563971120864153
+            },
+            {
+                "tag": "selfie",
+                "probability": 0.004473258275538683
+            },
+            {
+                "tag": "house",
+                "probability": 0.0037119360640645027
+            },
+            {
+                "tag": "landscape",
+                "probability": 0.003136142622679472
+            },
+            {
+                "tag": "car",
+                "probability": 0.002691027708351612
+            }
+        ]
+    },
+    {
+        "file": "images/podium.jpg",
+        "tags": [
+            {
+                "tag": "traffic_light",
+                "probability": 0.14465317130088806
+            },
+            {
+                "tag": "barbershop",
+                "probability": 0.07696419954299927
+            },
+            {
+                "tag": "accordion",
+                "probability": 0.05731530860066414
+            },
+            {
+                "tag": "flagpole",
+                "probability": 0.04191460460424423
+            },
+            {
+                "tag": "chime",
+                "probability": 0.04101414978504181
+            }
+        ]
+    },
+    {
+        "file": "images/podium.jpg",
+        "tags": [
+            {
+                "tag": "traffic_light",
+                "probability": 0.29061028361320496
+            },
+            {
+                "tag": "totem_pole",
+                "probability": 0.05417697876691818
+            },
+            {
+                "tag": "pole",
+                "probability": 0.0519447885453701
+            },
+            {
+                "tag": "street_sign",
+                "probability": 0.025972740724682808
+            },
+            {
+                "tag": "vending_machine",
+                "probability": 0.010004873387515545
+            }
+        ]
+    },
+    {
+        "file": "images/podium.jpg",
+        "tags": [
+            {
+                "tag": "winners",
+                "probability": 0.22292326390743256
+            },
+            {
+                "tag": "victory",
+                "probability": 0.19211359322071075
+            },
+            {
+                "tag": "winner",
+                "probability": 0.13387690484523773
+            },
+            {
+                "tag": "screenshot",
+                "probability": 0.09178360551595688
+            },
+            {
+                "tag": "group",
+                "probability": 0.07342960685491562
+            },
+            {
+                "tag": "team",
+                "probability": 0.04268740862607956
+            },
+            {
+                "tag": "losers",
+                "probability": 0.03943755850195885
+            },
+            {
+                "tag": "teamwork",
+                "probability": 0.03409925475716591
+            },
+            {
+                "tag": "together",
+                "probability": 0.0327024906873703
+            },
+            {
+                "tag": "fun",
+                "probability": 0.02967481128871441
+            },
+            {
+                "tag": "other",
+                "probability": 0.019735924899578094
+            },
+            {
+                "tag": "successinstruction",
+                "probability": 0.015765072777867317
+            },
+            {
+                "tag": "family",
+                "probability": 0.014009690843522549
+            },
+            {
+                "tag": "loser",
+                "probability": 0.01313540618866682
+            },
+            {
+                "tag": "people",
+                "probability": 0.011140052229166031
+            },
+            {
+                "tag": "friends",
+                "probability": 0.007206084206700325
+            },
+            {
+                "tag": "meme",
+                "probability": 0.006702961400151253
+            },
+            {
+                "tag": "person",
+                "probability": 0.005563971120864153
+            },
+            {
+                "tag": "selfie",
+                "probability": 0.004473258275538683
+            },
+            {
+                "tag": "house",
+                "probability": 0.0037119360640645027
+            },
+            {
+                "tag": "landscape",
+                "probability": 0.003136142622679472
+            },
+            {
+                "tag": "car",
+                "probability": 0.002691027708351612
+            }
+        ]
+    },
+    {
+        "file": "images/podium.jpg",
+        "tags": [
+            {
+                "tag": "traffic_light",
+                "probability": 0.14465317130088806
+            },
+            {
+                "tag": "barbershop",
+                "probability": 0.07696419954299927
+            },
+            {
+                "tag": "accordion",
+                "probability": 0.05731530860066414
+            },
+            {
+                "tag": "flagpole",
+                "probability": 0.04191460460424423
+            },
+            {
+                "tag": "chime",
+                "probability": 0.04101414978504181
+            }
+        ]
+    },
+    {
+        "file": "images/podium.jpg",
+        "tags": [
+            {
+                "tag": "traffic_light",
+                "probability": 0.29061028361320496
+            },
+            {
+                "tag": "totem_pole",
+                "probability": 0.05417697876691818
+            },
+            {
+                "tag": "pole",
+                "probability": 0.0519447885453701
+            },
+            {
+                "tag": "street_sign",
+                "probability": 0.025972740724682808
+            },
+            {
+                "tag": "vending_machine",
+                "probability": 0.010004873387515545
+            }
+        ]
+    },
+    {
+        "file": "images/podium.jpg",
+        "tags": [
+            {
+                "tag": "winners",
+                "probability": 0.15308254957199097
+            },
+            {
+                "tag": "victory",
+                "probability": 0.13192538917064667
+            },
+            {
+                "tag": "winner",
+                "probability": 0.0919339582324028
+            },
+            {
+                "tag": "photo",
+                "probability": 0.06450288742780685
+            },
+            {
+                "tag": "screenshot",
+                "probability": 0.06302826851606369
+            },
+            {
+                "tag": "screenshot",
+                "probability": 0.06302826851606369
+            },
+            {
+                "tag": "group",
+                "probability": 0.0504244901239872
+            },
+            {
+                "tag": "image",
+                "probability": 0.03538986295461655
+            },
+            {
+                "tag": "picture",
+                "probability": 0.03480798378586769
+            },
+            {
+                "tag": "photograph",
+                "probability": 0.03147753328084946
+            },
+            {
+                "tag": "text",
+                "probability": 0.030972620472311974
+            },
+            {
+                "tag": "team",
+                "probability": 0.02931366302073002
+            },
+            {
+                "tag": "losers",
+                "probability": 0.027081971988081932
+            },
+            {
+                "tag": "teamwork",
+                "probability": 0.02341613359749317
+            },
+            {
+                "tag": "together",
+                "probability": 0.02245696820318699
+            },
+            {
+                "tag": "fun",
+                "probability": 0.02037784457206726
+            },
+            {
+                "tag": "webpage",
+                "probability": 0.015275958925485611
+            },
+            {
+                "tag": "other",
+                "probability": 0.013552761636674404
+            },
+            {
+                "tag": "document",
+                "probability": 0.01255155261605978
+            },
+            {
+                "tag": "successinstruction",
+                "probability": 0.010825956240296364
+            },
+            {
+                "tag": "family",
+                "probability": 0.009620525874197483
+            },
+            {
+                "tag": "loser",
+                "probability": 0.009020150639116764
+            },
+            {
+                "tag": "graphic",
+                "probability": 0.008715757168829441
+            },
+            {
+                "tag": "people",
+                "probability": 0.007649931125342846
+            },
+            {
+                "tag": "table",
+                "probability": 0.005090406164526939
+            },
+            {
+                "tag": "friends",
+                "probability": 0.004948454909026623
+            },
+            {
+                "tag": "plot",
+                "probability": 0.004910226445645094
+            },
+            {
+                "tag": "meme",
+                "probability": 0.004602957982569933
+            },
+            {
+                "tag": "person",
+                "probability": 0.003820807673037052
+            },
+            {
+                "tag": "selfie",
+                "probability": 0.0030718096531927586
+            },
+            {
+                "tag": "drawing",
+                "probability": 0.002896655350923538
+            },
+            {
+                "tag": "diagram",
+                "probability": 0.0025907668750733137
+            },
+            {
+                "tag": "house",
+                "probability": 0.0025490056723356247
+            },
+            {
+                "tag": "landscape",
+                "probability": 0.002153609413653612
+            },
+            {
+                "tag": "car",
+                "probability": 0.0018479424761608243
+            },
+            {
+                "tag": "chart",
+                "probability": 0.0010843785712495446
+            }
+        ]
+    },
+    {
+        "file": "images/podium.jpg",
+        "tags": [
+            {
+                "tag": "traffic_light",
+                "probability": 0.14465317130088806
+            },
+            {
+                "tag": "barbershop",
+                "probability": 0.07696419954299927
+            },
+            {
+                "tag": "accordion",
+                "probability": 0.05731530860066414
+            },
+            {
+                "tag": "flagpole",
+                "probability": 0.04191460460424423
+            },
+            {
+                "tag": "chime",
+                "probability": 0.04101414978504181
+            }
+        ]
+    },
+    {
+        "file": "images/podium.jpg",
+        "tags": [
+            {
+                "tag": "traffic_light",
+                "probability": 0.29061028361320496
+            },
+            {
+                "tag": "totem_pole",
+                "probability": 0.05417697876691818
+            },
+            {
+                "tag": "pole",
+                "probability": 0.0519447885453701
+            },
+            {
+                "tag": "street_sign",
+                "probability": 0.025972740724682808
+            },
+            {
+                "tag": "vending_machine",
+                "probability": 0.010004873387515545
+            }
+        ]
+    },
+    {
+        "file": "images/podium.jpg",
+        "tags": [
+            {
+                "tag": "winners",
+                "probability": 0.1516767293214798
+            },
+            {
+                "tag": "victory",
+                "probability": 0.13071386516094208
+            },
+            {
+                "tag": "winner",
+                "probability": 0.09108969569206238
+            },
+            {
+                "tag": "photo",
+                "probability": 0.06391052901744843
+            },
+            {
+                "tag": "screenshot",
+                "probability": 0.06244945526123047
+            },
+            {
+                "tag": "screenshot",
+                "probability": 0.06244945526123047
+            },
+            {
+                "tag": "group",
+                "probability": 0.04996142163872719
+            },
+            {
+                "tag": "image",
+                "probability": 0.03506486490368843
+            },
+            {
+                "tag": "picture",
+                "probability": 0.03448832407593727
+            },
+            {
+                "tag": "photograph",
+                "probability": 0.031188463792204857
+            },
+            {
+                "tag": "text",
+                "probability": 0.03068818710744381
+            },
+            {
+                "tag": "team",
+                "probability": 0.029044462367892265
+            },
+            {
+                "tag": "losers",
+                "probability": 0.026833267882466316
+            },
+            {
+                "tag": "web_site",
+                "probability": 0.024318989366292953
+            },
+            {
+                "tag": "teamwork",
+                "probability": 0.023201094940304756
+            },
+            {
+                "tag": "together",
+                "probability": 0.022250736132264137
+            },
+            {
+                "tag": "fun",
+                "probability": 0.020190706476569176
+            },
+            {
+                "tag": "other",
+                "probability": 0.013428300619125366
+            },
+            {
+                "tag": "document",
+                "probability": 0.01243628654628992
+            },
+            {
+                "tag": "successinstruction",
+                "probability": 0.010726536624133587
+            },
+            {
+                "tag": "family",
+                "probability": 0.00953217688947916
+            },
+            {
+                "tag": "loser",
+                "probability": 0.008937315084040165
+            },
+            {
+                "tag": "graphic",
+                "probability": 0.008635717444121838
+            },
+            {
+                "tag": "people",
+                "probability": 0.0075796786695718765
+            },
+            {
+                "tag": "table",
+                "probability": 0.005043658893555403
+            },
+            {
+                "tag": "friends",
+                "probability": 0.0049030110239982605
+            },
+            {
+                "tag": "plot",
+                "probability": 0.004865133669227362
+            },
+            {
+                "tag": "meme",
+                "probability": 0.004560687113553286
+            },
+            {
+                "tag": "person",
+                "probability": 0.0037857196293771267
+            },
+            {
+                "tag": "selfie",
+                "probability": 0.0030435998924076557
+            },
+            {
+                "tag": "drawing",
+                "probability": 0.0028700539842247963
+            },
+            {
+                "tag": "diagram",
+                "probability": 0.0025669748429208994
+            },
+            {
+                "tag": "house",
+                "probability": 0.0025255971122533083
+            },
+            {
+                "tag": "landscape",
+                "probability": 0.002133831847459078
+            },
+            {
+                "tag": "car",
+                "probability": 0.0018309720326215029
+            },
+            {
+                "tag": "chart",
+                "probability": 0.0010744202882051468
+            }
+        ]
+    }
+]
