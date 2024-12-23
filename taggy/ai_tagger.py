@@ -70,6 +70,32 @@ class ImageTagger:
 			})
 
 		return sorted(results, key=lambda x: x["probability"], reverse=True)
+	
+	def add_tags_to_metadata(self, image_path, tags):
+		"""
+		Dodaje tagi do metadanych EXIF obrazu.
+		"""
+		try:
+			img = Image.open(image_path)
+			
+			# Sprawdź, czy EXIF istnieje, w razie braku utwórz nowy słownik
+			exif_dict = {}
+			if "exif" in img.info:
+				exif_dict = piexif.load(img.info["exif"])
+			
+			tags_str = ", ".join(tags)
+			
+			exif_dict.setdefault("Exif", {})
+			exif_dict["Exif"][piexif.ExifIFD.UserComment] = tags_str.encode("utf-8")
+			# Zapisz zmienione metadane
+			exif_bytes = piexif.dump(exif_dict)
+			img.save(image_path, "jpeg", exif=exif_bytes)
+			
+			return True, f"Tagi dodane do metadanych: {tags_str}"
+		except Exception as e:
+			return False, f"Błąd podczas edycji metadanych dla {image_path}: {e}"
+	
+	
 
 	
 	def load_images(self, images_path):

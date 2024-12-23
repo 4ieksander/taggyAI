@@ -188,5 +188,6 @@ def search_images(images_path, query, top_k):
 	for i, (file, score) in enumerate(results):
 		click.echo(f"{i + 1}. {file} (similarity: {score:.4f})")
 		
+		
 if __name__ == "__main__":
 	cli()

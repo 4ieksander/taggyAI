@@ -8,3 +8,5 @@ numpy
 pillow
 git+https://github.com/openai/CLIP.git
 pillow
+winshell
+piexif
