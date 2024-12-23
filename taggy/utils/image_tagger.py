@@ -9,7 +9,7 @@ os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 
 import json
 import numpy as np
-from taggy.utils.logger import get_logger
+from .logger import get_logger
 from tensorflow.keras.applications import MobileNetV2, InceptionV3
 from tensorflow.keras.applications.mobilenet_v2 import preprocess_input, decode_predictions
 from tensorflow.keras.preprocessing.image import load_img, img_to_array
@@ -123,11 +123,9 @@ def save_metadata_to_file(output_path, metadata):
 
 
 if __name__ == "__main__":
-	# Przykład użycia MobileNetV2
 	image_tagger_mobilenet = ImageTagger(model_name="MobileNetV2")
 	image_tagger_mobilenet.tag_image("..\\tests_image_tagger\\images\\meme.jpg")
 	
-	# Przykład użycia InceptionV3
 	image_tagger_inception = ImageTagger(model_name="InceptionV3")
 	image_tagger_inception.tag_image("..\\tests_image_tagger\\images\\meme.jpg")
 	
