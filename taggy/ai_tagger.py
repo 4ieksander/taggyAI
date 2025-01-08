@@ -8,6 +8,7 @@ import click
 import torch
 import clip
 from PIL import Image
+
 import numpy as np
 
 from utils.FILE_utils import perform_file_operation
@@ -15,6 +16,7 @@ from utils.logger import get_logger
 
 logger = get_logger(__name__)
 
+Image.MAX_IMAGE_PIXELS = 259756800
 
 def save_metadata_to_file(output_path, metadata):
     """
