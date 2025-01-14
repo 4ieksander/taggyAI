@@ -18,7 +18,7 @@ console_handler = logging.StreamHandler()
 console_handler.setLevel(logging.INFO)
 console_handler.setFormatter(CustomFormatter("%(asctime)s - %(levelname)s - %(message)s"))
 
-file_handler = logging.FileHandler("../taggy.log")
+file_handler = logging.FileHandler("../logs_taggy.log")
 file_handler.setLevel(logging.DEBUG)
 file_handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s"))
 

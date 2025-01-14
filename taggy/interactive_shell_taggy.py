@@ -1,6 +1,6 @@
 import click
 
-from taggy.cli import cli
+from taggy_cli import cli
 
 
 def interactive_shell():
