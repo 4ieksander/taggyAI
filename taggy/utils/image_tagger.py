@@ -8,17 +8,12 @@ All methods come in two flavors: sync (blocking) and async (using asyncio).
 """
 
 import os
-import json
-nimport time
 
 import click
 import torch
 import clip
 import numpy as np
-import asyncio
 from PIL import Image
-from concurrent.futures import ThreadPoolExecutor
-import sys  # for async progress in one line
 
 from .file_utils import perform_file_operation, save_metadata_to_json
 from .logger import get_logger
@@ -26,10 +21,7 @@ from .logger import get_logger
 
 logger = get_logger(__name__)
 
-# PIL can raise errors on extremely large images;
-# so we allow bigger than default to avoid DecompressionBombError
 Image.MAX_IMAGE_PIXELS = 259756800
-
 
 class ImageTagger:
     """
@@ -127,12 +119,13 @@ class ImageTagger:
             if f.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp', '.webp'))
             ]
         images = []
-        for img_path in image_files:
-            try:
-                img_tensor = self._prepare_image(img_path)
-                images.append(img_tensor)
-            except Exception as e:
-                logger.error(f"Cannot open image {img_path}: {e}")
+        with click.progressbar(image_files, label="Loading images") as bar:
+            for img_path in bar:
+                try:
+                    img_tensor = self._prepare_image(img_path)
+                    images.append(img_tensor)
+                except Exception as e:
+                    logger.error(f"Cannot open image {img_path}: {e}")
         
         if not images:
             return [], torch.empty(0)
@@ -197,16 +190,17 @@ class ImageTagger:
             operation (str, optional): File operation ('copy', 'move', 'symlink', etc.). Defaults to "copy".
         """
         grouped = {}
-        for img1, img2, similarity in duplicates:
-            group_id = None
-            for existing_group_id, images_ in grouped.items():
-                if img1 in images_ or img2 in images_:
-                    group_id = existing_group_id
-                    break
-            if group_id is None:
-                group_id = len(grouped) + 1
-                grouped[group_id] = set()
-            grouped[group_id].update([img1, img2])
+        with click.progressbar(duplicates, label="Grouping duplicates") as bar:
+            for img1, img2, similarity in bar:
+                group_id = None
+                for existing_group_id, images_ in grouped.items():
+                    if img1 in images_ or img2 in images_:
+                        group_id = existing_group_id
+                        break
+                if group_id is None:
+                    group_id = len(grouped) + 1
+                    grouped[group_id] = set()
+                grouped[group_id].update([img1, img2])
         
         for group_id, images_ in grouped.items():
             tag_samples = []
@@ -272,29 +266,28 @@ class ImageTagger:
         Returns:
             list[tuple(str, str, float)]: Pairs of duplicate images and their similarity.
         """
+        logger.info("Checking duplicates (sync) ...")
         image_files, image_tensors = self._load_images(images_path)
         if len(image_files) == 0 or image_tensors.shape[0] == 0:
             logger.warning("No images found for duplicate checking (sync).")
             return []
-        
+        logger.info(f"Loaded {len(image_files)} images for duplicate checking.")
         with torch.no_grad():
             image_features = self.model.encode_image(image_tensors).float()
-        
+        logger.info("Image features extracted.")
         image_features /= image_features.norm(dim=-1, keepdim=True)
         similarity_matrix = image_features @ image_features.T
-        
         duplicates = []
         
-        click.echo("Checking duplicates (sync) ...")
         num_images = len(image_files)
         total_pairs = (num_images * (num_images - 1)) // 2
+        logger.info(f"Comparing {total_pairs} pairs of images ...")
         pair_gen = ((i, j) for i in range(num_images) for j in range(i + 1, num_images))
         with click.progressbar(pair_gen, label="Comparing pairs", length=total_pairs) as bar:
             for (i, j) in bar:
                 similarity = float(similarity_matrix[i, j].item())
                 if similarity >= similarity_threshold:
                     duplicates.append((image_files[i], image_files[j], similarity))
-                    time.sleep(0.3)
         
         return duplicates
     
