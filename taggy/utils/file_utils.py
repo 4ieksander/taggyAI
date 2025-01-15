@@ -4,13 +4,19 @@ Utility functions for file operations, creating shortcuts (Windows), and saving 
 
 import os
 import shutil
+from typing import List
+
 import win32com.client
 import json
 import configparser
 
-from .logger import get_logger
+import torch
+from PIL import Image
 
+logger = None
+from .logger import get_logger
 logger = get_logger(__name__)
+
 
 def load_config(config_file: str = "config.ini"):
     """
@@ -94,6 +100,8 @@ def perform_file_operation(src, dest_dir, operation, description=None, icon_path
 
     if "copy" in operation:
         copy_file(src, dest)
+    if "move" in operation:
+        shutil.move(src, dest)
     if "symlink" in operation:
         if os.name == "nt":
             # Windows shortcut
@@ -112,4 +120,51 @@ def save_metadata_to_json(metadata, output_file):
     """
     with open(output_file, 'w', encoding='utf-8') as json_file:
         json.dump(metadata, json_file, indent=4, ensure_ascii=False)
-    logger.info(f"Metadata saved to {output_file}")
+    logger.debug(f"Results saved to {output_file}")
+
+
+def handle_images_in_group(group_folder, image_path, operation):
+    """
+    Moves/copies or symlinks an image into the group folder.
+    """
+    perform_file_operation(image_path, group_folder, operation)
+
+
+def list_supported_image_files(images_path: str) -> List[str]:
+    """
+    Returns a list of supported image file paths in the given directory.
+    Supported extensions: png, jpg, jpeg, bmp, webp
+
+    Args:
+        images_path (str): Path to a folder containing images.
+
+    Returns:
+        List[str]: List of file paths found with supported extensions.
+    """
+    if not os.path.isdir(images_path):
+        logger.warning(f"Directory does not exist: {images_path}")
+        return []
+    exts = ('.png', '.jpg', '.jpeg', '.bmp', '.webp')
+    files = [
+        os.path.join(images_path, f)
+        for f in os.listdir(images_path)
+        if f.lower().endswith(exts)
+    ]
+    return files
+
+
+def preprocess_image(img_path: str, preprocess, device) -> torch.Tensor:
+    """
+    Opens and preprocesses a single image using the provided CLIP preprocess pipeline.
+
+    Args:
+        img_path (str): Path to the image file.
+        preprocess (callable): The CLIP preprocess transform.
+        device (str or torch.device): 'cpu' or 'cuda'.
+
+    Returns:
+        torch.Tensor: The preprocessed image on the appropriate device.
+    """
+    pil_img = Image.open(img_path)
+    img_tensor = preprocess(pil_img).unsqueeze(0).to(device)
+    return img_tensor
