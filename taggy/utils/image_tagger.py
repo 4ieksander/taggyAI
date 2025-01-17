@@ -528,3 +528,16 @@ class ImageTagger:
                     duplicates.append((image_files[i], image_files[j], similarity))
         
         return duplicates
+    
+    
+    def _compute_brisque_contribution(self, img_cv2):
+        """
+        No content ->  During the implementation of this function, I encountered many problems, perhaps it will be completed in the past
+        
+        Args:
+            img_cv2 ([type]): [description]
+            
+        Returns:
+        Float value 0.5
+        """
+        return 0.5
