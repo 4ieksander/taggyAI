@@ -26,7 +26,7 @@ from utils.image_tagger import ImageTagger
 logger = get_logger(__name__)
 
 @click.group()
-@click.option('--config-file', default='config.ini', help='Path to the config file.')
+@click.option('--config-file', default='resources/config.ini', help='Path to the config file.')
 @click.pass_context
 def cli(ctx, config_file):
     """
@@ -72,7 +72,7 @@ def find_duplicates_cmd(ctx, images_path, output_folder, labels, operation, simi
     click.echo(f"Operation: {operation}, Labels: {labels}")
     click.echo(f"Finding duplicates in {images_path} with threshold={similarity_threshold} ...")
 
-    tagger = ImageTagger(model_name="CLIP", face_cascade_path=face_cascade)
+    tagger = ImageTagger(model_name="CLIP", face_cascade_path=face_cascade, labels=labels)
 
     duplicates = tagger.find_duplicates(images_path, similarity_threshold=similarity_threshold)
     if not duplicates:
@@ -84,10 +84,11 @@ def find_duplicates_cmd(ctx, images_path, output_folder, labels, operation, simi
     output_folder=  output_folder if output_folder else f"{images_path}/taggy_output/duplicates/"
     tagger.group_duplicates(
         duplicates=duplicates,
+        labels=labels,
         output_folder= output_folder,
         operation=operation,
         propose_best=propose_best,
-        all_images=all_images if ["copy", "symlink"] in operation else None,
+        all_images=all_images if operation in ["copy", "symlink"] else None,
         best_scoring_method=best_method,
         results_json_path=os.path.join(output_folder, "duplicates_results.json")
     )
@@ -123,7 +124,7 @@ def tag_images_cmd(ctx, images_path, threshold, top_k, labels, operation, one_ou
     
     click.echo(f"Operation: {operation}, Labels: {labels}", labels)
     click.echo(f"Tagging images in {images_path} with threshold={threshold}, top_k={top_k}.")
-    tagger = ImageTagger(model_name="CLIP")
+    tagger = ImageTagger(model_name="CLIP", labels=labels)
 
 
     image_files = list_supported_image_files(images_path)

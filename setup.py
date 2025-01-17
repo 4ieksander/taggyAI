@@ -6,11 +6,17 @@ setup(
     packages=find_packages(),
     install_requires=[
         'click',
-        'toml'
+        'torch,'   # for torch.hub
+        'torchvision,' # for torchvision.models
+        'rich,'    # for logging
+        'numpy,'   # for image loading
+        'pillow,' # for image loading
+        'git+https,://github.com/openai/CLIP.git' # for CLIP (main model for analyzing images)
+        'opencv-python # for simple analysis quality of images (sharpness, detecting faces)'
     ],
     entry_points={
         'console_scripts': [
-            'taggy=taggy.cli:add_tag',  # This links the CLI to the `taggy` command
+            'taggy=taggy.taggy_cli',  # This links the CLI to the `taggy` command
         ]
     },
 )
