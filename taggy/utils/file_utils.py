@@ -105,12 +105,13 @@ def perform_file_operation(src, dest_dir, operation, description=None, icon_path
         icon_path (str, optional): Used if creating a shortcut. Defaults to None.
     """
     dest = os.path.join(dest_dir, os.path.basename(src))
-
-    if "copy" in operation:
+    create_directory(dest_dir)
+    
+    if operation == "copy":
         copy_file(src, dest)
-    if "move" in operation:
+    if operation == "move" :
         shutil.move(src, dest)
-    if "symlink" in operation:
+    if operation == "symlink":
         if os.name == "nt":
             # Windows shortcut
             create_shortcut(src, dest + ".lnk", description, icon_path)

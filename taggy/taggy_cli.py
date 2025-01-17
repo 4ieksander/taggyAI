@@ -111,12 +111,17 @@ def find_duplicates_cmd(ctx, images_path, output_folder, labels, operation, simi
               help="List of labels used for tagging (if not provided, uses default).")
 @click.option("--one-output-json", type=click.Path(), default=None,
               help="If provided, saves tags per every file to one provided JSON file.")
-@click.option("--operation", "-op", type=click.Choice(['copy', 'symlink']), help="File operation to perform. (Grouped by detected flags).")
-@click.option("--output-folder", "-o", type=click.Path(), help="Folder to place tagged images. (Optional)")
+@click.option("--operation", "-op", type=click.Choice(['copy', 'symlink']),
+                default="symlink",  help="File operation to perform. Grouped by detected labels, "
+                                         "working with --output-folder parameter. Default is 'symlink'.")
+@click.option("--images-output-folder", "-o", type=click.Path(),
+              help="Folder to place tagged images. When you want to do some operation on files what was found."
+                   "Graphics may be repeated (one image can be in many folders).")
 @click.option("--create-many-output-jsons", "-j", is_flag=True,
               help="If provided, saves tags per every file to separate JSON files.")
 @click.pass_context
-def tag_images_cmd(ctx, images_path, threshold, top_k, labels, operation, one_output_json, create_many_output_jsons, output_folder):
+def tag_images_cmd(ctx, images_path, threshold, top_k, labels, operation,
+                   one_output_json, create_many_output_jsons, images_output_folder):
     """
     Assigns labels to each image in images_path using the CLIP model.
     """
@@ -138,7 +143,7 @@ def tag_images_cmd(ctx, images_path, threshold, top_k, labels, operation, one_ou
     logger.info(f"Found {len(image_files)} images.")
 
     results_list = []
-    count_images = len(image_files)
+    count_images = len(image_files)-1
     for i, file_path in enumerate(image_files):
         tags_scored = tagger.tag_image(
             file_path,
@@ -146,6 +151,8 @@ def tag_images_cmd(ctx, images_path, threshold, top_k, labels, operation, one_ou
             top_k=top_k,
             labels=labels,
             threshold=threshold,
+            operation=operation,
+            output_folder=images_output_folder,
         )
         results_list.append({
             "file": file_path,
@@ -157,6 +164,8 @@ def tag_images_cmd(ctx, images_path, threshold, top_k, labels, operation, one_ou
         save_metadata_to_json(results_list, one_output_json)
         click.echo(f"Saved tagging results to {one_output_json}.")
     logger.info("Done tagging images.")
+    if images_output_folder:
+        logger.info(f"Images saved [operation: {operation}] to {images_output_folder} grouped by tags (images may be repeated)")
     
     
 @cli.command("search")
@@ -167,17 +176,17 @@ def tag_images_cmd(ctx, images_path, threshold, top_k, labels, operation, one_ou
 @click.option("--output-folder", "-o", type=click.Path(),
               help="Folder to place search results. Use if you want to do some operation on files what was found.")
 @click.option("--operation", "-op", type=click.Choice(['copy', 'symlink', 'move']),
-                help="File operation to perform when searching images. Default is 'copy'")
+              default="copy", help="File operation to perform when searching images. Default is 'copy'")
 @click.option("--top-k", "-k", type=int, default=5,
               help="Number of top results to return.")
-def search_images_cmd(images_path, query, top_k):
+def search_images_cmd(images_path, query, top_k, output_folder, operation):
     """
     Searches for images most similar to the provided text query using CLIP embeddings.
     """
     click.echo(f"Searching images in {images_path} for query='{query}'...")
     tagger = ImageTagger(model_name="CLIP")
 
-    results = tagger.search_images(query, images_path, top_k=top_k, output_path=None)
+    results = tagger.search_images(query, images_path, top_k=top_k, output_path=output_folder, operation=operation)
     if not results:
         click.echo("No results found (no images or none matched).")
         return

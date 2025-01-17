@@ -24,7 +24,7 @@ except ImportError:
     cv2 = None
 
 from .file_utils import (
-    perform_file_operation,
+    create_directory, perform_file_operation,
     save_metadata_to_json,
     list_supported_image_files,
     preprocess_image
@@ -93,7 +93,9 @@ class ImageTagger:
                   output_path: str = None,
                   top_k: int = 5,
                   labels=None,
-                  threshold: float = 0.3):
+                  threshold: float = 0.3,
+                  operation: str = None,
+                  output_folder: str = None):
         """
         Generates tags for a given image using CLIP, optionally saves metadata.
 
@@ -110,17 +112,23 @@ class ImageTagger:
         results = self._process_image(image_path, threshold,  labels)
         results = sorted(results, key=lambda x: x["probability"], reverse=True)[:top_k]
         
+        if output_folder and results:
+            assigned_labels = [r["tag"] for r in results]
+            for label in assigned_labels:
+                label_dir = os.path.join(output_folder, label)
+                create_directory(label_dir)
+                perform_file_operation(image_path, label_dir, operation)
+                
         if output_path and results:
             metadata = {"file": image_path, "tags": results}
             save_metadata_to_json(metadata, output_path)
-        
         return results
     
     
     # ---------------------------------------
     # Search  image(s) similarity to query - command 'search'
     # ---------------------------------------
-    def search_images(self, query: str, images_path: str, top_k: int = 5, output_path: str = None, operation: str = "copy"):
+    def search_images(self, query: str, images_path: str, top_k: int = 5, output_path: str = None, operation: str = None):
         """
         Searches for images similar to a text query using the CLIP model.
 
