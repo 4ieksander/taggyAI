@@ -13,7 +13,6 @@ import configparser
 import torch
 from PIL import Image
 
-logger = None
 from .logger import get_logger
 logger = get_logger(__name__)
 
@@ -41,6 +40,10 @@ def load_config(config_file: str = "config.ini"):
             "threshold": "0.3",
             "metadata_output": "metadata.json"
         }
+        logger.debug("Default config values:")
+        for key, value in config["DEFAULT"].items():
+            logger.debug(f"{key}: {value}")
+        
     return config["DEFAULT"]
 
 def create_directory(path):
@@ -52,6 +55,7 @@ def create_directory(path):
     """
     if not os.path.exists(path):
         os.makedirs(path)
+        logger.debug(f"Created directory: {path}")
 
 def copy_file(src, dest):
     """
@@ -130,7 +134,7 @@ def handle_images_in_group(group_folder, image_path, operation):
     perform_file_operation(image_path, group_folder, operation)
 
 
-def list_supported_image_files(images_path: str) -> List[str]:
+def list_supported_image_files(images_path):
     """
     Returns a list of supported image file paths in the given directory.
     Supported extensions: png, jpg, jpeg, bmp, webp
@@ -153,7 +157,7 @@ def list_supported_image_files(images_path: str) -> List[str]:
     return files
 
 
-def preprocess_image(img_path: str, preprocess, device) -> torch.Tensor:
+def preprocess_image(img_path, preprocess, device) -> torch.Tensor:
     """
     Opens and preprocesses a single image using the provided CLIP preprocess pipeline.
 
@@ -163,7 +167,7 @@ def preprocess_image(img_path: str, preprocess, device) -> torch.Tensor:
         device (str or torch.device): 'cpu' or 'cuda'.
 
     Returns:
-        torch.Tensor: The preprocessed image on the appropriate device.
+        torch.Tensor: The preprocessed image on the appropriate device.z
     """
     pil_img = Image.open(img_path)
     img_tensor = preprocess(pil_img).unsqueeze(0).to(device)

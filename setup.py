@@ -6,7 +6,6 @@ setup(
     packages=find_packages(),
     install_requires=[
         'click',
-        'rich',
         'toml'
     ],
     entry_points={
