@@ -31,6 +31,10 @@ def load_config(config_file: str = "config.ini"):
     if os.path.exists(config_file):
         config.read(config_file, encoding='utf-8')
         logger.info(f"Loaded config file: {config_file}")
+    elif os.path.exists("config.ini"):
+        config_file = "config.ini"
+        config.read(config_file, encoding='utf-8')
+        logger.info(f"Loaded default config file: {config_file}")
     else:
         logger.warning(f"Config file '{config_file}' does not exist. Using default in-code values.")
         config["DEFAULT"] = {
@@ -126,12 +130,6 @@ def save_metadata_to_json(metadata, output_file):
         json.dump(metadata, json_file, indent=4, ensure_ascii=False)
     logger.debug(f"Results saved to {output_file}")
 
-
-def handle_images_in_group(group_folder, image_path, operation):
-    """
-    Moves/copies or symlinks an image into the group folder.
-    """
-    perform_file_operation(image_path, group_folder, operation)
 
 
 def list_supported_image_files(images_path):

@@ -39,15 +39,39 @@ Image.MAX_IMAGE_PIXELS = 259756800
 
 
 class ImageTagger:
-    
+    """
+    A class used to tag images, search for images by similarity, find and group duplicate images,
+    and propose the best images in each group based on multiple metrics.
+
+    Attributes:
+        model_name (str): The name of the model to load.
+        labels (list): List of possible tags.
+        face_cascade_path (str): The path to the Haar cascade file for face detection.
+        device (str): The device to run the model on (CPU or GPU).
+        model (torch.nn.Module): The loaded CLIP model.
+        preprocess (callable): The preprocessing function for the CLIP model.
+    """
+
     def __init__(self,
                  model_name: str = "CLIP",
                  labels: list = None,
-                 face_cascade_path: str = "haarcascade_frontalface_default.xml"):
+                 face_cascade_path: str = None):
+        """
+        Initializes the ImageTagger instance.
 
+        Args:
+            model_name (str): Name of the model to load. Defaults to "CLIP".
+            labels (list, optional): List of possible tags. Defaults to None.
+            face_cascade_path (str, optional): Path to the Haar cascade file for face detection. Defaults to None.
+        """
         self.labels = labels
         self.model_name = model_name
         self.face_cascade_path = face_cascade_path
+        
+        if torch.cuda.is_available():
+            logger.critical(f"CUDA available, device: {torch.cuda.get_device_name(0)}")
+        else:
+            logger.critical("CUDA not available, using CPU.")
 
         if model_name == "CLIP":
             self.device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -58,6 +82,7 @@ class ImageTagger:
         
         if cv2 is None:
             logger.warning("OpenCV not installed. Face-detection-based metrics may be unavailable.")
+    
     
     
     # ---------------------------------------
@@ -95,7 +120,7 @@ class ImageTagger:
     # ---------------------------------------
     # Search  image(s) similarity to query - command 'search'
     # ---------------------------------------
-    def search_images(self, query: str, images_path: str, top_k: int = 5):
+    def search_images(self, query: str, images_path: str, top_k: int = 5, output_path: str = None, operation: str = "copy"):
         """
         Searches for images similar to a text query using the CLIP model.
 
@@ -103,7 +128,9 @@ class ImageTagger:
             query (str): The text query to search for.
             images_path (str): Path to the directory containing images.
             top_k (int, optional): Number of top similar images to return. Defaults to 5.
-
+            output_path (str, optional): Path to save files what was found. Defaults to None.
+            operation (str, optional): File operation. Defaults to "copy".
+            
         Returns:
             list[tuple[str, float]]: A list of tuples containing image file paths and their similarity scores.
         """
@@ -124,6 +151,10 @@ class ImageTagger:
         similarities = (text_features @ image_features.T).squeeze(0).cpu().numpy()
         sorted_indices = np.argsort(similarities)[::-1][:top_k]
         results = [(image_files[idx], float(similarities[idx])) for idx in sorted_indices]
+        if output_path and results:
+            for img_path, _ in results:
+                perform_file_operation(img_path, output_path, operation)
+            logger.info(f"Files saved to {output_path} with operation: {operation}")
         return results
     
     
@@ -132,14 +163,18 @@ class ImageTagger:
     # ---------------------------------------
     def find_duplicates(self, images_path: str, similarity_threshold: float = 0.9):
         """
-        Identifies duplicate images by cosine similarity of embeddings, sync.
+        Identifies duplicate images by cosine similarity of embeddings, synchronously.
+
+        This method loads images from the specified directory, computes their embeddings using the CLIP model,
+        and then calculates the cosine similarity between each pair of images. If the similarity exceeds the
+        specified threshold, the pair is considered a duplicate.
 
         Args:
-            images_path (str): Folder with images.
-            similarity_threshold (float): 0..1 threshold for duplicates.
+            images_path (str): Path to the folder containing images.
+            similarity_threshold (float): Threshold for considering images as duplicates, ranging from 0 to 1. Defaults to 0.9.
 
         Returns:
-            list[tuple(str, str, float)]: Pairs of (img1, img2, similarity).
+            list[tuple[str, str, float]]: A list of tuples where each tuple contains two image paths and their similarity score.
         """
         logger.info("Checking duplicates (sync) ...")
         image_files, image_tensors = self._load_images(images_path)
@@ -179,12 +214,10 @@ class ImageTagger:
     # ---------------------------------------
     def group_duplicates(self,
                          duplicates: list,
-                         labels: list,
                          output_folder: str,
                          operation: str = "copy",
                          propose_best: bool = True,
                          all_images: list = None,
-                         results_json_path: str = None,
                          best_scoring_method: str = "advanced"):
         """
         High-level method to group duplicates into subfolders, also handle non-duplicates.
@@ -199,9 +232,8 @@ class ImageTagger:
             operation (str, optional): File operation. Defaults to "copy".
             propose_best (bool, optional): Whether to measure quality. Defaults to True.
             all_images (list[str], optional): If provided, separate out non-duplicates. Defaults to None.
-            results_json_path (str, optional): Where to save grouping results as JSON. Defaults to None.
+            best_scoring_method (str, optional): Method to score the best images. Defaults to "advanced".
         """
-        self.labels = labels
         grouped = _find_duplicate_groups(duplicates)
         group_records = self._process_duplicate_groups(
             grouped,
@@ -229,15 +261,19 @@ class ImageTagger:
                 for image_path in non_duplicates_set:
                     perform_file_operation(image_path, non_dup_folder, operation)
                     if propose_best:
-                        q = self._advanced_image_score(image_path)
+                        gray = _load_image(image_path)
+                        q = self._combined_image_score(gray)
                         results_data["non_duplicates"].append({
                             "path":  image_path,
                             "score": q
                             })
                     else:
                         results_data["non_duplicates"].append({"path": image_path})
+                        
+                logger.info(f"Non-duplicates placed in {non_dup_folder}")
+                if output_folder:
+                    save_metadata_to_json(results_data, os.path.join(non_dup_folder, "non_duplicates.json"))
         
-    
     
     # ---------------------------------------
     # Helper method used by commands "tag", "search" and "duplicates"
@@ -263,10 +299,9 @@ class ImageTagger:
             
             with torch.no_grad():
                 logits_per_image, _ = self.model(image_tensor, text)
-                probs = logits_per_image.softmax(dim=-1).cpu().numpy()
+                probs = logits_per_image.softmax(dim=-1).cpu().numpy().flatten()
             
-            # Upewnienie się, że probs jest iterowalny
-            if probs.ndim == 0:  # Jeśli pojedyncza wartość, zamień na listę
+            if probs.ndim == 0:
                 probs = [float(probs)]
             elif probs.ndim == 1:
                 probs = probs.tolist()
@@ -319,7 +354,7 @@ class ImageTagger:
             return [], torch.empty(0)
         
         return image_files, torch.cat(images)
-    
+
     
     
     # ---------------------------------------
@@ -349,7 +384,7 @@ class ImageTagger:
         """
         group_records = []
         for group_id, images_ in grouped.items():
-            # 1) gather tags
+            # gather tags
             tag_samples = []
             for image_path in images_:
                 tags = self._generate_tags(image_path)
@@ -358,26 +393,29 @@ class ImageTagger:
             if tag_samples:
                 most_common_tag = max(set(tag_samples), key=tag_samples.count)
             
-            # 2) measure quality
+            # measure quality
             scored_images = []
             if propose_best:
                 for image_path in images_:
-                    if best_scoring_method == "advanced":
-                        score = self._advanced_image_score(image_path)
+                    gray_img = _load_image(image_path)
+                    if gray_img is None:
+                        score = 0.0
+                    elif best_scoring_method == "advanced":
+                        score = self._combined_image_score(gray_img)
                     else:
-                        score = _measure_image_quality(image_path)
+                        score = _calculate_sharpness(gray_img)
                     scored_images.append((image_path, score))
                 scored_images.sort(key=lambda x: x[1], reverse=True)
                 best_images = scored_images[:3]
             else:
                 best_images = []
             
-            # 3) create group subfolder
+            # create group subfolder
             folder_name = f"{most_common_tag}_{group_id}"
             group_folder = os.path.join(output_folder, folder_name)
             os.makedirs(group_folder, exist_ok=True)
             
-            # 4) move/copy/symlink images
+            # move/copy/symlink images
             group_images_info = []
             if propose_best:
                 for (img_path, q) in scored_images:
@@ -387,8 +425,8 @@ class ImageTagger:
                 for img_path in images_:
                     perform_file_operation(img_path, group_folder, operation)
                     group_images_info.append({"path": img_path})
-            
-            # store results
+            if output_folder:
+                logger.info(f"Group {group_id} ({len(images_)} images) => {group_folder}")
             record = {
                 "group_id":    group_id,
                 "tag":         most_common_tag,
@@ -402,6 +440,9 @@ class ImageTagger:
                     ]
             group_records.append(record)
         
+        logger.info(f"Operation on files: {operation}")
+        if output_folder and group_records:
+            save_metadata_to_json(group_records, os.path.join(output_folder, "grouped_images.json"))
         return group_records
     
     
@@ -416,80 +457,47 @@ class ImageTagger:
         Returns:
             list[str]: A list of tag names assigned to the image.
         """
-        results = self._process_image(image_path, self.labels, threshold)
+        results = self._process_image(image_path, threshold)
         return [item["tag"] for item in results]
-    
-    
-    def _advanced_image_score(self, image_path: str):
-        """
-        More advanced approach:
-          1. Load image with OpenCV
-          2. Detect faces (Haar Cascade, if available)
-          3. Measure sharpness only in face regions; average if multiple faces
-          4. Add face count as partial factor
-          5. Return final "score" (higher => better).
 
+    
+    def _combined_image_score(self, gray: np.ndarray):
+        """
+        Computes a combined image quality score based on sharpness and face detection.
+        
+        This method calculates the sharpness of the entire image using the variance of the Laplacian.
+        If a Haar cascade file for face detection is available, it also calculates the sharpness of detected faces
+        and combines these scores to produce a final quality score.
+        
         Args:
-            image_path (str): Path to the image file.
-
+            gray (np.ndarray): Grayscale image array.
+        
         Returns:
-            float: A combined score based on sharpness and face count.
+            float: Combined image quality score.
         """
-        if cv2 is None:
-            return 0.5  # fallback
+        base_sharpness = _calculate_sharpness(gray)
         
-        try:
-            img_data = np.fromfile(image_path, dtype=np.uint8)
-            img_cv2 = cv2.imdecode(img_data, cv2.IMREAD_COLOR)
-            if img_cv2 is None:
-                return 0.0
-            
-            # Face detection
-            gray = cv2.cvtColor(img_cv2, cv2.COLOR_BGR2GRAY)
-            
-            if not os.path.exists(self.face_cascade_path):
-                logger.warning(f"Haar cascade not found: {self.face_cascade_path}. "
-                               "Face detection won't work.")
-                lap = cv2.Laplacian(gray, cv2.CV_64F)
-                base_sharpness = float(lap.var())
-                return base_sharpness * 0.3
-            
-            face_cascade = cv2.CascadeClassifier(self.face_cascade_path)
-            faces = face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5)
-            
-            if len(faces) == 0:
-                # fallback – Laplacian entire image
-                lap = cv2.Laplacian(gray, cv2.CV_64F)
-                base_sharpness = float(lap.var())
-                return base_sharpness * 0.3
-            else:
-                # measure face-based sharpness
-                face_sharpness_values = []
-                for (x, y, w, h) in faces:
-                    face_roi = gray[y:y + h, x:x + w]
-                    lap = cv2.Laplacian(face_roi, cv2.CV_64F)
-                    face_sharpness_values.append(lap.var())
-                if face_sharpness_values:
-                    avg_face_sharpness = sum(face_sharpness_values) / len(face_sharpness_values)
-                else:
-                    avg_face_sharpness = 0.0
-                
-                face_count = len(faces)
-                
-                # Weighted combination
-                overall_score = (avg_face_sharpness * 0.5) + (face_count * 0.2)
-                return overall_score
+        if not os.path.exists(self.face_cascade_path):
+            logger.warning(f"Haar cascade not found: {self.face_cascade_path}. Using sharpness only.")
+            return base_sharpness * 0.3
         
-        except Exception as e:
-            logger.error(f"Error in advanced_image_score for {image_path}: {e}")
-            return 0.0
-    
-  
+        face_cascade = cv2.CascadeClassifier(self.face_cascade_path)
+        faces = face_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5)
+        
+        if len(faces) == 0:
+            return base_sharpness * 0.3
+        
+        face_sharpness = [_calculate_sharpness(gray[y:y + h, x:x + w]) for (x, y, w, h) in faces]
+        avg_face_sharpness = sum(face_sharpness) / len(face_sharpness) if face_sharpness else 0.0
+        
+        return (avg_face_sharpness * 0.5) + (len(faces) * 0.2)
+
+
 
 # ---------------------------------------
 # Helper functions for command 'duplicates'
 # ---------------------------------------
-def _find_duplicate_groups(duplicates):
+def _find_duplicate_groups(duplicates: list):
     """
     Builds a dictionary grouping sets of duplicates. Each group has a numeric ID.
 
@@ -503,7 +511,6 @@ def _find_duplicate_groups(duplicates):
     with click.progressbar(duplicates, label="Grouping duplicates") as bar:
         for img1, img2, similarity in bar:
             group_id = None
-            # Check if either image is in an existing group
             for existing_group_id, images_ in grouped.items():
                 if img1 in images_ or img2 in images_:
                     group_id = existing_group_id
@@ -542,6 +549,46 @@ def _measure_image_quality(image_path: str):
         return 0.0
 
 
+def _load_image(image_path: str):
+    """
+    Loads an image from the specified path and converts it to a grayscale image.
+
+    This function uses OpenCV to read the image data from the file, decode it, and convert it to grayscale.
+    If OpenCV is not available or the image cannot be loaded, it returns None.
+
+    Args:
+        image_path (str): Path to the image file.
+
+    Returns:
+        np.ndarray: Grayscale image array if successful, None otherwise.
+    """
+    if cv2 is None:
+        return None
+    try:
+        img_data = np.fromfile(image_path, dtype=np.uint8)
+        img_cv2 = cv2.imdecode(img_data, cv2.IMREAD_COLOR)
+        if img_cv2 is None:
+            raise ValueError("Invalid image data.")
+        return cv2.cvtColor(img_cv2, cv2.COLOR_BGR2GRAY)
+    except Exception as e:
+        logger.error(f"Error loading image {image_path}: {e}")
+        return None
+    
+    
+def _calculate_sharpness(img_gray: np.ndarray):
+    """
+    Calculates the sharpness of a grayscale image using the variance of the Laplacian.
+
+    This function computes the Laplacian of the image and returns the variance, which is a measure of sharpness.
+    Higher variance indicates a sharper image.
+
+    Args:
+        img_gray (np.ndarray): Grayscale image array.
+
+    Returns:
+        float: Variance of the Laplacian, representing the image sharpness.
+    """
+    return float(cv2.Laplacian(img_gray, cv2.CV_64F).var())
 # ---------------------------------------
 # Aleksander Okrasa
 # Please dont share this code with anyone

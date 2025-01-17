@@ -26,7 +26,7 @@ from utils.image_tagger import ImageTagger
 logger = get_logger(__name__)
 
 @click.group()
-@click.option('--config-file', default='resources/config.ini', help='Path to the config file.')
+@click.option('--config-file', '-c', default='taggy/config.ini', help='Path to the config file.')
 @click.pass_context
 def cli(ctx, config_file):
     """
@@ -40,6 +40,10 @@ def cli(ctx, config_file):
     labels = [label.strip() for label in labels_from_config]
     ctx.obj['labels'] = labels
     
+    face_cascade_path = defaults.get("face_cascade_path", None)
+    ctx.obj['face_cascade_path'] = face_cascade_path
+    
+    
 @cli.command("duplicates")
 @click.option("--images-path", "-i", type=click.Path(exists=True), required=True,
               help="Path to the folder containing images.")
@@ -51,7 +55,7 @@ def cli(ctx, config_file):
               help='File operation(s) to perform when grouping duplicates.')
 @click.option("--similarity-threshold", "-t", default=0.9, type=float,
               help="Threshold (0..1) for considering images duplicates.")
-@click.option("--face-cascade", type=click.Path(exists=False), default=r"D:\code\PycharmProjects\taggy\taggy\utils\haarcascade_frontalface_default.xml",
+@click.option("--face-cascade", type=click.Path(exists=False), default=None,
               help="Path to the Haar cascade XML file for face detection.")
 @click.option("--propose-best", "-b", is_flag=True,
               help="If provided, proposes 'best' images to keep in each group.")
@@ -68,6 +72,8 @@ def find_duplicates_cmd(ctx, images_path, output_folder, labels, operation, simi
         operation = defaults.get("operation", "symlink")
     if not labels:
         labels = ctx.obj['labels']
+    if not face_cascade:
+        face_cascade = ctx.obj['face_cascade_path']
         
     click.echo(f"Operation: {operation}, Labels: {labels}")
     click.echo(f"Finding duplicates in {images_path} with threshold={similarity_threshold} ...")
@@ -84,13 +90,11 @@ def find_duplicates_cmd(ctx, images_path, output_folder, labels, operation, simi
     output_folder=  output_folder if output_folder else f"{images_path}/taggy_output/duplicates/"
     tagger.group_duplicates(
         duplicates=duplicates,
-        labels=labels,
         output_folder= output_folder,
         operation=operation,
         propose_best=propose_best,
         all_images=all_images if operation in ["copy", "symlink"] else None,
         best_scoring_method=best_method,
-        results_json_path=os.path.join(output_folder, "duplicates_results.json")
     )
 
     logger.info("Done grouping duplicates.")
@@ -120,9 +124,9 @@ def tag_images_cmd(ctx, images_path, threshold, top_k, labels, operation, one_ou
     if not operation:
         operation = defaults.get("operation", "symlink")
     if not labels:
-        labels = defaults.get("labels", ["unknown"])
+        labels = ctx.obj['labels']
     
-    click.echo(f"Operation: {operation}, Labels: {labels}", labels)
+    click.echo(f"Operation: {operation}, Labels: {labels}")
     click.echo(f"Tagging images in {images_path} with threshold={threshold}, top_k={top_k}.")
     tagger = ImageTagger(model_name="CLIP", labels=labels)
 
@@ -160,6 +164,10 @@ def tag_images_cmd(ctx, images_path, threshold, top_k, labels, operation, one_ou
               help="Path to the folder containing images.")
 @click.option("--query", "-q", type=str, required=True,
               help="Text query for searching similar images.")
+@click.option("--output-folder", "-o", type=click.Path(),
+              help="Folder to place search results. Use if you want to do some operation on files what was found.")
+@click.option("--operation", "-op", type=click.Choice(['copy', 'symlink', 'move']),
+                help="File operation to perform when searching images. Default is 'copy'")
 @click.option("--top-k", "-k", type=int, default=5,
               help="Number of top results to return.")
 def search_images_cmd(images_path, query, top_k):
@@ -169,7 +177,7 @@ def search_images_cmd(images_path, query, top_k):
     click.echo(f"Searching images in {images_path} for query='{query}'...")
     tagger = ImageTagger(model_name="CLIP")
 
-    results = tagger.search_images(query, images_path, top_k=top_k)
+    results = tagger.search_images(query, images_path, top_k=top_k, output_path=None)
     if not results:
         click.echo("No results found (no images or none matched).")
         return
