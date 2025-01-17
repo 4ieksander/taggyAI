@@ -16,7 +16,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'taggy=taggy.taggy_cli',  # This links the CLI to the `taggy` command
+            'taggy=taggy.taggy_cli',
         ]
     },
 )
