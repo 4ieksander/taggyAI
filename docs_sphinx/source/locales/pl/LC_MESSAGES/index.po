@@ -1,0 +1,118 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Aleksander Okrasa
+# This file is distributed under the same license as the Taggy package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Taggy \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-01-18 21:36+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: pl\n"
+"Language-Team: pl <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && "
+"(n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+#: ../source/index.rst:33
+msgid "Spis treści:"
+msgstr ""
+
+#: ../source/index.rst:7
+msgid "Taggy documentation"
+msgstr ""
+
+#: ../source/index.rst:10
+msgid "Dependencies"
+msgstr ""
+
+#: ../source/index.rst:12
+msgid "Your project requires the following Python packages to function:"
+msgstr ""
+
+#: ../source/index.rst:14
+msgid "**torch**: Used for loading models from `torch.hub`."
+msgstr ""
+
+#: ../source/index.rst:15
+msgid "**torchvision**: Provides pre-trained models."
+msgstr ""
+
+#: ../source/index.rst:16
+msgid "**click**: Command-line interface support."
+msgstr ""
+
+#: ../source/index.rst:17
+msgid "**rich**: For enhanced logging."
+msgstr ""
+
+#: ../source/index.rst:18
+msgid "**numpy** and **pillow**: For loading and handling images."
+msgstr ""
+
+#: ../source/index.rst:19
+msgid ""
+"**opencv-python**: For simple image analysis, such as sharpness or face "
+"detection."
+msgstr ""
+
+#: ../source/index.rst:21
+msgid "Additional tools for documentation and translations:"
+msgstr ""
+
+#: ../source/index.rst:23
+msgid ""
+"**Sphinx** and its extensions: `sphinx-click`, `sphinx-intl`, `myst-"
+"parser`."
+msgstr ""
+
+#: ../source/index.rst:24
+msgid "**Furo**: Modern documentation theme."
+msgstr ""
+
+#: ../source/index.rst:25
+msgid "**pypandoc**: For exporting documentation to DOCX."
+msgstr ""
+
+#: ../source/index.rst:27
+msgid "Special models and utilities:"
+msgstr ""
+
+#: ../source/index.rst:29
+msgid "**CLIP**: Main model for image analysis (from OpenAI)."
+msgstr ""
+
+#: ../source/index.rst:30
+msgid "Optional: `tensorflow` and `toml` for additional model support."
+msgstr ""
+
+#: ../source/index.rst:40
+msgid "Indices and tables"
+msgstr ""
+
+#: ../source/index.rst:42
+msgid ":ref:`genindex`"
+msgstr ""
+
+#: ../source/index.rst:43
+msgid ":ref:`modindex`"
+msgstr ""
+
+#: ../source/index.rst:44
+msgid ":ref:`search`"
+msgstr ""
+
+#~ msgid ""
+#~ "Add your content using ``reStructuredText``"
+#~ " syntax. See the `reStructuredText "
+#~ "<https://www.sphinx-"
+#~ "doc.org/en/master/usage/restructuredtext/index.html>`_ "
+#~ "documentation for details."
+#~ msgstr ""
+

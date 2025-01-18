@@ -1,0 +1,834 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, Aleksander Okrasa
+# This file is distributed under the same license as the Taggy package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Taggy\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-01-18 21:44+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: pl <LL@li.org>\n"
+"Language: pl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Generated-By: Babel 2.15.0\n"
+
+#: ../source/modules.rst:2
+msgid "CLI – Taggy"
+msgstr "CLI - Taggy"
+
+#: of taggy.utils.image_tagger:1
+msgid "Module that provides both synchronous functionality for:"
+msgstr "Moduł, który zapewnia zarówno synchroniczną funkcjonalność dla:"
+
+#: of taggy.utils.image_tagger:2
+msgid "Tagging images using CLIP"
+msgstr "Oznaczanie obrazów za pomocą CLIP"
+
+#: of taggy.utils.image_tagger:3
+msgid "Searching for images by similarity to a text query"
+msgstr ""
+"Wyszukiwanie obrazów na podstawie podobieństwa do zapytania tekstowego"
+
+#: of taggy.utils.image_tagger:4
+msgid "Finding and grouping duplicate images by embedding similarity"
+msgstr ""
+"Znajdowanie i grupowanie zduplikowanych obrazów poprzez osadzanie "
+"podobieństwa"
+
+#: of taggy.utils.image_tagger:5
+msgid "Proposing the best images in each group based on multiple metrics:"
+msgstr ""
+"Proponowanie najlepszych obrazów w każdej grupie na podstawie wielu "
+"wskaźników:"
+
+#: of taggy.utils.image_tagger:6
+msgid "Naive \"sharpness\" via Laplacian"
+msgstr "Naiwna \"ostrość\" dzięki Laplacianowi"
+
+#: of taggy.utils.image_tagger:7
+msgid "Face-detection-based sharpness"
+msgstr "Ostrość oparta na wykrywaniu twarzy"
+
+#: of taggy.utils.image_tagger:8
+msgid "Optionally placing non-duplicates in a 'non_duplicates' folder"
+msgstr "Opcjonalne umieszczenie nieduplikatów w folderze \"non_duplicates\"."
+
+#: of taggy.utils.image_tagger:9
+msgid "Saving grouping results to JSON"
+msgstr "Zapisywanie wyników grupowania w formacie JSON"
+
+#: ../taggy_cli:1
+msgid "Main entry point for the Taggy CLI."
+msgstr "Główny punkt wejścia dla Taggy CLI."
+
+#: ../source/modules.rst
+msgid "Options"
+msgstr "Opcje"
+
+#: ../taggy_cli:1
+msgid "Path to the config file."
+msgstr "Ścieżka do pliku konfiguracyjnego."
+
+#: ../taggy_cli duplicates:1
+msgid ""
+"Finds and groups duplicate images based on their embedding similarity. Then "
+"organizes them into subfolders, picking 'best images' if desired."
+msgstr ""
+"Znajduje i grupuje zduplikowane obrazy na podstawie ich podobieństwa "
+"osadzenia. Następnie organizuje je w podfoldery, wybierając w razie potrzeby"
+" \"najlepsze obrazy\"."
+
+#: ../taggy_cli duplicates:1 search:1 tag:1
+msgid "**Required** Path to the folder containing images."
+msgstr "**Wymagane** Ścieżka do folderu zawierającego obrazy."
+
+#: ../taggy_cli duplicates:1
+msgid "Folder to place grouped duplicates."
+msgstr "Folder do umieszczania zgrupowanych duplikatów."
+
+#: ../taggy_cli duplicates:1
+msgid ""
+"List of labels used for grouping names of duplicates (if not provided, uses "
+"default)."
+msgstr ""
+"Lista etykiet używanych do grupowania nazw duplikatów (jeśli nie podano, "
+"używana jest wartość domyślna)."
+
+#: ../taggy_cli duplicates:1
+msgid "File operation(s) to perform when grouping duplicates."
+msgstr "Operacje na plikach do wykonania podczas grupowania duplikatów."
+
+#: ../taggy_cli duplicates search tag
+msgid "options"
+msgstr "opcje"
+
+#: ../taggy_cli duplicates:1 search:1
+msgid "copy | symlink | move"
+msgstr "copy | symlink | move"
+
+#: ../taggy_cli duplicates:1
+msgid "Threshold (0..1) for considering images duplicates."
+msgstr "Próg (0..1) dla uznania obrazów za duplikaty."
+
+#: ../taggy_cli duplicates:1
+msgid "Path to the Haar cascade XML file for face detection."
+msgstr "Ścieżka do pliku XML kaskady Haara do wykrywania twarzy."
+
+#: ../taggy_cli duplicates:1
+msgid "If provided, proposes 'best' images to keep in each group."
+msgstr ""
+"Jeśli to możliwe, proponuje \"najlepsze\" obrazy do zachowania w każdej "
+"grupie."
+
+#: ../taggy_cli duplicates:1
+msgid "How to score 'best' images."
+msgstr "Jak oceniać \"najlepsze\" obrazy."
+
+#: ../taggy_cli duplicates:1
+msgid "advanced | laplacian"
+msgstr "zaawansowany laplacian"
+
+#: ../taggy_cli search:1
+msgid ""
+"Searches for images most similar to the provided text query using CLIP "
+"embeddings."
+msgstr ""
+"Wyszukuje obrazy najbardziej podobne do podanego zapytania tekstowego przy "
+"użyciu osadzania CLIP."
+
+#: ../taggy_cli search:1
+msgid "**Required** Text query for searching similar images."
+msgstr "**Wymagane** Zapytanie tekstowe do wyszukiwania podobnych obrazów."
+
+#: ../taggy_cli search:1
+msgid ""
+"Folder to place search results. Use if you want to do some operation on "
+"files what was found."
+msgstr ""
+"Folder do umieszczenia wyników wyszukiwania. Użyj, jeśli chcesz wykonać "
+"jakąś operację na znalezionych plikach."
+
+#: ../taggy_cli search:1
+msgid "File operation to perform when searching images. Default is 'copy'"
+msgstr ""
+"Operacja na pliku do wykonania podczas wyszukiwania obrazów. Domyślnie jest "
+"to \"kopiuj"
+
+#: ../taggy_cli search:1
+msgid "Number of top results to return."
+msgstr "Liczba najlepszych wyników do zwrócenia."
+
+#: ../taggy_cli tag:1
+msgid "Assigns labels to each image in images_path using the CLIP model."
+msgstr ""
+"Przypisuje etykiety do każdego obrazu w images_path przy użyciu modelu CLIP."
+
+#: ../taggy_cli tag:1
+msgid "Minimum probability threshold for assigning a label."
+msgstr "Minimalny próg prawdopodobieństwa przypisania etykiety."
+
+#: ../taggy_cli tag:1
+msgid "Number of top tags to return."
+msgstr "Liczba najlepszych tagów do zwrócenia."
+
+#: ../taggy_cli tag:1
+msgid "List of labels used for tagging (if not provided, uses default)."
+msgstr ""
+"Lista etykiet używanych do tagowania (jeśli nie podano, używana jest wartość"
+" domyślna)."
+
+#: ../taggy_cli tag:1
+msgid "If provided, saves tags per every file to one provided JSON file."
+msgstr ""
+"Jeśli podano, zapisuje tagi dla każdego pliku w jednym podanym pliku JSON."
+
+#: ../taggy_cli tag:1
+msgid ""
+"File operation to perform. Grouped by detected labels, working with "
+"--output-folder parameter. Default is 'symlink'."
+msgstr ""
+"Operacja na pliku do wykonania. Pogrupowane według wykrytych etykiet, "
+"działające z parametrem --output-folder. Domyślnie \"symlink\"."
+
+#: ../taggy_cli tag:1
+msgid "copy | symlink"
+msgstr "copy | symlink"
+
+#: ../taggy_cli tag:1
+msgid ""
+"Folder to place tagged images. When you want to do some operation on files "
+"what was found.Graphics may be repeated (one image can be in many folders)."
+msgstr ""
+"Folder do umieszczania oznaczonych obrazów. Gdy chcesz wykonać jakąś "
+"operację na plikach, które zostały znalezione, grafika może się powtarzać "
+"(jeden obraz może znajdować się w wielu folderach)."
+
+#: ../taggy_cli tag:1
+msgid "If provided, saves tags per every file to separate JSON files."
+msgstr ""
+"Jeśli podano, zapisuje tagi dla każdego pliku w oddzielnych plikach JSON."
+
+#: ../source/modules.rst:11
+msgid "Image Tagger – Taggy"
+msgstr "Tagger obrazów - Taggy"
+
+#: of taggy.utils.image_tagger.ImageTagger:1
+msgid ""
+"A class used to tag images, search for images by similarity, find and group "
+"duplicate images, and propose the best images in each group based on "
+"multiple metrics."
+msgstr ""
+"Klasa używana do tagowania obrazów, wyszukiwania obrazów według "
+"podobieństwa, znajdowania i grupowania zduplikowanych obrazów oraz "
+"proponowania najlepszych obrazów w każdej grupie na podstawie wielu "
+"wskaźników."
+
+#: of taggy.utils.image_tagger.ImageTagger:6
+msgid "The name of the model to load."
+msgstr "Nazwa modelu do załadowania."
+
+#: of taggy.utils.image_tagger.ImageTagger
+msgid "type"
+msgstr "typ"
+
+#: of taggy.utils.image_tagger.ImageTagger:8
+#: taggy.utils.image_tagger.ImageTagger:20
+#: taggy.utils.image_tagger.ImageTagger:26
+msgid "str"
+msgstr "str"
+
+#: of taggy.utils.image_tagger.ImageTagger:12
+msgid "List of possible tags."
+msgstr "Lista możliwych tagów."
+
+#: of taggy.utils.image_tagger.ImageTagger:14
+msgid "list"
+msgstr ""
+
+#: of taggy.utils.image_tagger.ImageTagger:18
+msgid "The path to the Haar cascade file for face detection."
+msgstr "Ścieżka do pliku kaskady Haara do wykrywania twarzy."
+
+#: of taggy.utils.image_tagger.ImageTagger:24
+msgid "The device to run the model on (CPU or GPU)."
+msgstr "Urządzenie, na którym ma zostać uruchomiony model (CPU lub GPU)."
+
+#: of taggy.utils.image_tagger.ImageTagger:30
+msgid "The loaded CLIP model."
+msgstr "Załadowany model CLIP."
+
+#: of taggy.utils.image_tagger.ImageTagger:32
+msgid "torch.nn.Module"
+msgstr "torch.nn.Module"
+
+#: of taggy.utils.image_tagger.ImageTagger:36
+msgid "The preprocessing function for the CLIP model."
+msgstr "Funkcja przetwarzania wstępnego dla modelu CLIP."
+
+#: of taggy.utils.image_tagger.ImageTagger:38
+msgid "callable"
+msgstr "wywoływalny"
+
+#: of taggy.utils.image_tagger.ImageTagger.__init__:1
+#, fuzzy
+msgid "Initializes the ImageTagger instance."
+msgstr "Inicjalizuje instancję ImageTagger."
+
+#: ../source/modules.rst
+msgid "Parametry"
+msgstr "Parametry"
+
+#: of taggy.utils.image_tagger.ImageTagger.__init__:3
+#, fuzzy
+msgid "Name of the model to load. Defaults to \"CLIP\"."
+msgstr "Nazwa modelu do załadowania. Domyślnie \"CLIP\"."
+
+#: of taggy.utils.image_tagger.ImageTagger.__init__:5
+#, fuzzy
+msgid "List of possible tags. Defaults to None."
+msgstr "Lista możliwych tagów. Domyślnie Brak."
+
+#: of taggy.utils.image_tagger.ImageTagger.__init__:7
+#, fuzzy
+msgid "Path to the Haar cascade file for face detection. Defaults to None."
+msgstr "Ścieżka do pliku kaskady Haara do wykrywania twarzy. Domyślnie Brak."
+
+#: of taggy.utils.image_tagger.ImageTagger._combined_image_score:1
+msgid ""
+"Computes a combined image quality score based on sharpness and face "
+"detection."
+msgstr ""
+"Oblicza łączny wynik jakości obrazu na podstawie ostrości i wykrywania "
+"twarzy."
+
+#: of taggy.utils.image_tagger.ImageTagger._combined_image_score:3
+msgid ""
+"This method calculates the sharpness of the entire image using the variance "
+"of the Laplacian. If a Haar cascade file for face detection is available, it"
+" also calculates the sharpness of detected faces and combines these scores "
+"to produce a final quality score."
+msgstr ""
+"Metoda ta oblicza ostrość całego obrazu przy użyciu wariancji Laplaciana. "
+"Jeśli dostępny jest plik kaskady Haara do wykrywania twarzy, oblicza on "
+"również ostrość wykrytych twarzy i łączy te wyniki, aby uzyskać ostateczny "
+"wynik jakości."
+
+#: of taggy.utils.image_tagger.ImageTagger._combined_image_score:7
+#: taggy.utils.image_tagger._calculate_sharpness:6
+msgid "Grayscale image array."
+msgstr "Tablica obrazów w skali szarości."
+
+#: ../source/modules.rst
+msgid "Zwraca"
+msgstr "Zwraca"
+
+#: of taggy.utils.image_tagger.ImageTagger._combined_image_score:10
+msgid "Combined image quality score."
+msgstr "Łączny wynik jakości obrazu."
+
+#: ../source/modules.rst
+msgid "Typ zwracany"
+msgstr "Typ zwracany"
+
+#: of taggy.utils.image_tagger.ImageTagger._generate_tags:1
+msgid "Generates a list of tag names for the given image."
+msgstr "Generuje listę nazw tagów dla danego obrazu."
+
+#: of taggy.utils.image_tagger.ImageTagger._generate_tags:3
+#: taggy.utils.image_tagger.ImageTagger.tag_image:3
+msgid "Path to the image."
+msgstr "Ścieżka do obrazu."
+
+#: of taggy.utils.image_tagger.ImageTagger._generate_tags:5
+#: taggy.utils.image_tagger.ImageTagger.tag_image:11
+msgid "Probability threshold. Defaults to 0.3."
+msgstr "Próg prawdopodobieństwa. Domyślnie 0,3."
+
+#: of taggy.utils.image_tagger.ImageTagger._generate_tags:8
+msgid "A list of tag names assigned to the image."
+msgstr "Lista nazw tagów przypisanych do obrazu."
+
+#: of taggy.utils.image_tagger.ImageTagger._load_images:1
+msgid ""
+"Loads all images from a directory and preprocesses them into a Tensor "
+"(synchronously)."
+msgstr ""
+"Ładuje wszystkie obrazy z katalogu i wstępnie przetwarza je w Tensor "
+"(synchronicznie)."
+
+#: of taggy.utils.image_tagger.ImageTagger._load_images:3
+#: taggy.utils.image_tagger.ImageTagger.search_images:5
+msgid "Path to the directory containing images."
+msgstr "Ścieżka do katalogu zawierającego obrazy."
+
+#: of taggy.utils.image_tagger.ImageTagger._load_images:6
+msgid ""
+"- List of image file paths - A concatenated torch.Tensor of preprocessed "
+"images"
+msgstr ""
+"- Lista ścieżek plików obrazów - Skonkatenowany torch.Tensor wstępnie "
+"przetworzonych obrazów"
+
+#: of taggy.utils.image_tagger.ImageTagger._load_images:6
+#, fuzzy
+msgid "List of image file paths"
+msgstr "Lista ścieżek plików obrazów"
+
+#: of taggy.utils.image_tagger.ImageTagger._load_images:7
+msgid "A concatenated torch.Tensor of preprocessed images"
+msgstr "Skonkatenowany torch.Tensor wstępnie przetworzonych obrazów"
+
+#: of taggy.utils.image_tagger.ImageTagger._process_duplicate_groups:1
+msgid ""
+"Processes each group to: - Find the most common tag - Optionally measure "
+"quality to pick best images - Perform file operation and assemble result "
+"data"
+msgstr ""
+"Przetwarza każdą grupę, aby: - znalezienia najczęściej występującego tagu - "
+"opcjonalnego pomiaru jakości w celu wybrania najlepszych obrazów - wykonania"
+" operacji na plikach i zebrania danych wynikowych"
+
+#: of taggy.utils.image_tagger.ImageTagger._process_duplicate_groups:6
+msgid "group_id => set of image paths"
+msgstr "group_id => zestaw ścieżek obrazów"
+
+#: of taggy.utils.image_tagger.ImageTagger._process_duplicate_groups:8
+#, fuzzy
+msgid "Destination folder"
+msgstr "Folder docelowy"
+
+#: of taggy.utils.image_tagger.ImageTagger._process_duplicate_groups:10
+#, fuzzy
+msgid "File op ('copy', 'move', etc.). Defaults to \"copy\"."
+msgstr "Opcja pliku (\"kopiuj\", \"przenieś\" itp.). Domyślnie \"kopiuj\"."
+
+#: of taggy.utils.image_tagger.ImageTagger._process_duplicate_groups:12
+#, fuzzy
+msgid "If True, measure image quality. Defaults to True."
+msgstr "Jeśli True, mierzy jakość obrazu. Domyślnie True."
+
+#: of taggy.utils.image_tagger.ImageTagger._process_duplicate_groups:14
+#, fuzzy
+msgid "\"advanced\" or \"laplacian\"."
+msgstr "\"advanced\" lub \"laplacian\"."
+
+#: of taggy.utils.image_tagger.ImageTagger._process_duplicate_groups:17
+msgid "A list of group records with info about images & best images"
+msgstr "Lista rekordów grup z informacjami o obrazach i najlepszych obrazach"
+
+#: of taggy.utils.image_tagger.ImageTagger._process_image:1
+msgid ""
+"Forward pass (synchronous) through the CLIP model for a single image, "
+"returning labels above a probability threshold."
+msgstr ""
+"Przejście do przodu (synchroniczne) przez model CLIP dla pojedynczego "
+"obrazu, zwracające etykiety powyżej progu prawdopodobieństwa."
+
+#: of taggy.utils.file_utils.preprocess_image:3
+#: taggy.utils.image_tagger.ImageTagger._process_image:4
+#: taggy.utils.image_tagger._load_image:6
+#: taggy.utils.image_tagger._measure_image_quality:4
+msgid "Path to the image file."
+msgstr "Ścieżka do pliku obrazu."
+
+#: of taggy.utils.image_tagger.ImageTagger._process_image:6
+msgid "List of text labels."
+msgstr "Lista etykiet tekstowych."
+
+#: of taggy.utils.image_tagger.ImageTagger._process_image:8
+#, fuzzy
+msgid "Probability threshold for tag assignment."
+msgstr "Próg prawdopodobieństwa przypisania tagu."
+
+#: of taggy.utils.image_tagger.ImageTagger._process_image:11
+#, fuzzy
+msgid "A list of dictionaries with 'tag' and 'probability' keys."
+msgstr "Lista słowników z kluczami \"tag\" i \"prawdopodobieństwo\"."
+
+#: of taggy.utils.image_tagger.ImageTagger.find_duplicates:1
+msgid ""
+"Identifies duplicate images by cosine similarity of embeddings, "
+"synchronously."
+msgstr ""
+"Identyfikuje zduplikowane obrazy na podstawie kosinusowego podobieństwa "
+"osadzeń, synchronicznie."
+
+#: of taggy.utils.image_tagger.ImageTagger.find_duplicates:3
+msgid ""
+"This method loads images from the specified directory, computes their "
+"embeddings using the CLIP model, and then calculates the cosine similarity "
+"between each pair of images. If the similarity exceeds the specified "
+"threshold, the pair is considered a duplicate."
+msgstr ""
+"Ta metoda ładuje obrazy z określonego katalogu, oblicza ich osadzenia przy "
+"użyciu modelu CLIP, a następnie oblicza podobieństwo kosinusowe między każdą"
+" parą obrazów. Jeśli podobieństwo przekracza określony próg, para jest "
+"uznawana za duplikat."
+
+#: of taggy.utils.image_tagger.ImageTagger.find_duplicates:7
+msgid "Path to the folder containing images."
+msgstr "Ścieżka do folderu zawierającego obrazy."
+
+#: of taggy.utils.image_tagger.ImageTagger.find_duplicates:9
+msgid ""
+"Threshold for considering images as duplicates, ranging from 0 to 1. "
+"Defaults to 0.9."
+msgstr ""
+"Próg uznawania obrazów za duplikaty, w zakresie od 0 do 1. Domyślnie 0,9."
+
+#: of taggy.utils.image_tagger.ImageTagger.find_duplicates:12
+msgid ""
+"A list of tuples where each tuple contains two image paths and their "
+"similarity score."
+msgstr ""
+"Lista krotek, gdzie każda krotka zawiera dwie ścieżki obrazu i ich wynik "
+"podobieństwa."
+
+#: of taggy.utils.image_tagger.ImageTagger.group_duplicates:1
+msgid ""
+"High-level method to group duplicates into subfolders, also handle non-"
+"duplicates. - Finds groups from duplicates - Processes each group (common "
+"tag, best images) - Places non-duplicate images in a 'non_duplicates' "
+"subfolder - Saves a JSON summary of everything"
+msgstr ""
+"Wysokopoziomowa metoda grupowania duplikatów w podfolderach, obsługująca "
+"również nie-duplikaty. - Znajduje grupy z duplikatów - Przetwarza każdą "
+"grupę (wspólny tag, najlepsze obrazy) - Umieszcza nie-duplikaty obrazów w "
+"podfolderze \"non_duplicates\" - Zapisuje podsumowanie JSON wszystkiego"
+
+#: of taggy.utils.image_tagger.ImageTagger.group_duplicates:7
+msgid "(img1, img2, similarity)."
+msgstr "(img1, img2, podobieństwo)."
+
+#: of taggy.utils.image_tagger.ImageTagger.group_duplicates:9
+msgid "Where grouped images will be placed."
+msgstr "Gdzie będą umieszczane zgrupowane obrazy."
+
+#: of taggy.utils.image_tagger.ImageTagger.group_duplicates:11
+#: taggy.utils.image_tagger.ImageTagger.search_images:11
+msgid "File operation. Defaults to \"copy\"."
+msgstr "Operacja na pliku. Domyślnie \"kopiuj\"."
+
+#: of taggy.utils.image_tagger.ImageTagger.group_duplicates:13
+msgid "Whether to measure quality. Defaults to True."
+msgstr "Czy mierzyć jakość. Domyślnie True."
+
+#: of taggy.utils.image_tagger.ImageTagger.group_duplicates:15
+msgid "If provided, separate out non-duplicates. Defaults to None."
+msgstr "Jeśli podano, oddziela nieduplikaty. Domyślnie Brak."
+
+#: of taggy.utils.image_tagger.ImageTagger.group_duplicates:17
+msgid "Method to score the best images. Defaults to \"advanced\"."
+msgstr "Metoda oceny najlepszych obrazów. Domyślnie \"zaawansowane\"."
+
+#: of taggy.utils.image_tagger.ImageTagger.search_images:1
+msgid "Searches for images similar to a text query using the CLIP model."
+msgstr ""
+"Wyszukuje obrazy podobne do zapytania tekstowego przy użyciu modelu CLIP."
+
+#: of taggy.utils.image_tagger.ImageTagger.search_images:3
+msgid "The text query to search for."
+msgstr "Zapytanie tekstowe do wyszukania."
+
+#: of taggy.utils.image_tagger.ImageTagger.search_images:7
+msgid "Number of top similar images to return. Defaults to 5."
+msgstr "Liczba najbardziej podobnych obrazów do zwrócenia. Domyślnie 5."
+
+#: of taggy.utils.image_tagger.ImageTagger.search_images:9
+msgid "Path to save files what was found. Defaults to None."
+msgstr "Ścieżka do zapisania znalezionych plików. Domyślnie Brak."
+
+#: of taggy.utils.image_tagger.ImageTagger.search_images:14
+msgid ""
+"A list of tuples containing image file paths and their similarity scores."
+msgstr ""
+"Lista krotek zawierająca ścieżki do plików graficznych i ich wyniki "
+"podobieństwa."
+
+#: of taggy.utils.image_tagger.ImageTagger.tag_image:1
+msgid ""
+"Generates tags for a given image using CLIP, optionally saves metadata."
+msgstr ""
+"Generuje tagi dla danego obrazu za pomocą CLIP, opcjonalnie zapisuje "
+"metadane."
+
+#: of taggy.utils.image_tagger.ImageTagger.tag_image:5
+msgid "Path to save metadata. Defaults to None."
+msgstr "Ścieżka do zapisania metadanych. Domyślnie Brak."
+
+#: of taggy.utils.image_tagger.ImageTagger.tag_image:7
+msgid "Number of top tags to return. Defaults to 5."
+msgstr "Liczba najlepszych tagów do zwrócenia. Domyślnie 5."
+
+#: of taggy.utils.image_tagger.ImageTagger.tag_image:14
+msgid "A list of assigned tags (tag + probability)."
+msgstr "Lista przypisanych tagów (tag + prawdopodobieństwo)."
+
+#: of taggy.utils.image_tagger._calculate_sharpness:1
+msgid ""
+"Calculates the sharpness of a grayscale image using the variance of the "
+"Laplacian."
+msgstr ""
+"Oblicza ostrość obrazu w skali szarości przy użyciu wariancji Laplaciana."
+
+#: of taggy.utils.image_tagger._calculate_sharpness:3
+msgid ""
+"This function computes the Laplacian of the image and returns the variance, "
+"which is a measure of sharpness. Higher variance indicates a sharper image."
+msgstr ""
+"Ta funkcja oblicza laplasjan obrazu i zwraca wariancję, która jest miarą "
+"ostrości. Wyższa wariancja oznacza ostrzejszy obraz."
+
+#: of taggy.utils.image_tagger._calculate_sharpness:9
+msgid "Variance of the Laplacian, representing the image sharpness."
+msgstr "Wariancja Laplaciana, reprezentująca ostrość obrazu."
+
+#: of taggy.utils.image_tagger._find_duplicate_groups:1
+msgid ""
+"Builds a dictionary grouping sets of duplicates. Each group has a numeric "
+"ID."
+msgstr ""
+"Tworzy słownik grupujący zestawy duplikatów. Każda grupa ma numeryczny "
+"identyfikator."
+
+#: of taggy.utils.image_tagger._find_duplicate_groups:3
+#, fuzzy
+msgid "e.g. list of (img1, img2, similarity)."
+msgstr "np. lista (img1, img2, podobieństwo)."
+
+#: of taggy.utils.image_tagger._find_duplicate_groups:6
+msgid "A mapping from group_id => set of image paths"
+msgstr "Mapowanie z group_id => zestaw ścieżek obrazów"
+
+#: of taggy.utils.image_tagger._load_image:1
+msgid ""
+"Loads an image from the specified path and converts it to a grayscale image."
+msgstr ""
+"Wczytuje obraz z podanej ścieżki i konwertuje go na obraz w skali szarości."
+
+#: of taggy.utils.image_tagger._load_image:3
+msgid ""
+"This function uses OpenCV to read the image data from the file, decode it, "
+"and convert it to grayscale. If OpenCV is not available or the image cannot "
+"be loaded, it returns None."
+msgstr ""
+"Ta funkcja używa OpenCV do odczytania danych obrazu z pliku, zdekodowania go"
+" i przekonwertowania na skalę szarości. Jeśli OpenCV nie jest dostępny lub "
+"nie można załadować obrazu, funkcja zwraca None."
+
+#: of taggy.utils.image_tagger._load_image:9
+msgid "Grayscale image array if successful, None otherwise."
+msgstr ""
+"Tablica obrazów w skali szarości w przypadku powodzenia, brak w przeciwnym "
+"razie."
+
+#: of taggy.utils.image_tagger._measure_image_quality:1
+msgid ""
+"Naive 'sharpness' measure using the variance of the Laplacian on the entire "
+"image. Higher => sharper image."
+msgstr ""
+"Naiwna miara \"ostrości\" wykorzystująca wariancję Laplaciana na całym "
+"obrazie. Wyższy => ostrzejszy obraz."
+
+#: of taggy.utils.image_tagger._measure_image_quality:7
+msgid "Variance of Laplacian (0 if error or if cv2 missing)."
+msgstr "Wariancja laplasjanu (0 w przypadku błędu lub braku cv2)."
+
+#: ../source/modules.rst:20
+msgid "Moduły pomocnicze"
+msgstr "Moduły pomocnicze"
+
+#: ../source/modules.rst:22
+msgid "utils.file_utils"
+msgstr "utils.file_utils"
+
+#: of taggy.utils.file_utils:1
+msgid ""
+"Utility functions for file operations, creating shortcuts (Windows), and "
+"saving metadata."
+msgstr ""
+"Funkcje narzędziowe do operacji na plikach, tworzenia skrótów (Windows) i "
+"zapisywania metadanych."
+
+#: of taggy.utils.file_utils.copy_file:1
+msgid ""
+"Copies a file from src to dest, preserving metadata (timestamps, etc.)."
+msgstr ""
+"Kopiuje plik z src do dest, zachowując metadane (znaczniki czasu itp.)."
+
+#: of taggy.utils.file_utils.copy_file:3
+#: taggy.utils.file_utils.perform_file_operation:3
+msgid "Source file path."
+msgstr "Ścieżka pliku źródłowego."
+
+#: of taggy.utils.file_utils.copy_file:5
+msgid "Destination file path."
+msgstr "Ścieżka pliku docelowego."
+
+#: of taggy.utils.file_utils.create_directory:1
+msgid "Creates a directory if it does not exist."
+msgstr "Tworzy katalog, jeśli nie istnieje."
+
+#: of taggy.utils.file_utils.create_directory:3
+msgid "Path to the directory."
+msgstr "Ścieżka do katalogu."
+
+#: of taggy.utils.file_utils.create_shortcut:1
+msgid "Creates a Windows shortcut (.lnk) to the target file."
+msgstr "Tworzy skrót Windows (.lnk) do pliku docelowego."
+
+#: of taggy.utils.file_utils.create_shortcut:3
+msgid "Absolute path to the target file."
+msgstr "Ścieżka bezwzględna do pliku docelowego."
+
+#: of taggy.utils.file_utils.create_shortcut:5
+msgid "Absolute path where the shortcut will be created."
+msgstr "Ścieżka bezwzględna, w której zostanie utworzony skrót."
+
+#: of taggy.utils.file_utils.create_shortcut:7
+msgid "Shortcut description. Defaults to None."
+msgstr "Opis skrótu. Domyślnie Brak."
+
+#: of taggy.utils.file_utils.create_shortcut:9
+msgid "Path to an icon file. Defaults to None."
+msgstr "Ścieżka do pliku ikony. Domyślnie Brak."
+
+#: of taggy.utils.file_utils.list_supported_image_files:1
+msgid ""
+"Returns a list of supported image file paths in the given directory. "
+"Supported extensions: png, jpg, jpeg, bmp, webp"
+msgstr ""
+"Zwraca listę obsługiwanych ścieżek plików graficznych w podanym katalogu. "
+"Obsługiwane rozszerzenia: png, jpg, jpeg, bmp, webp"
+
+#: of taggy.utils.file_utils.list_supported_image_files:4
+msgid "Path to a folder containing images."
+msgstr "Ścieżka do folderu zawierającego obrazy."
+
+#: of taggy.utils.file_utils.list_supported_image_files:7
+msgid "List of file paths found with supported extensions."
+msgstr "Lista znalezionych ścieżek plików z obsługiwanymi rozszerzeniami."
+
+#: of taggy.utils.file_utils.load_config:1
+msgid ""
+"Loads default values from an INI config file and returns them as a "
+"dictionary-like object."
+msgstr ""
+"Wczytuje wartości domyślne z pliku konfiguracyjnego INI i zwraca je jako "
+"obiekt podobny do słownika."
+
+#: of taggy.utils.file_utils.load_config:3
+msgid "The path to the config file. Defaults to \"config.ini\"."
+msgstr "Ścieżka do pliku konfiguracyjnego. Domyślnie \"config.ini\"."
+
+#: of taggy.utils.file_utils.load_config:6
+msgid "A config section (dict-like) with default values."
+msgstr "Sekcja konfiguracji (podobna do dict) z wartościami domyślnymi."
+
+#: of taggy.utils.file_utils.perform_file_operation:1
+msgid ""
+"Performs a file operation (copy or symlink/shortcut) from src to dest_dir."
+msgstr ""
+"Wykonuje operację na pliku (kopiowanie lub dowiązanie symboliczne/skrót) z "
+"src do dest_dir."
+
+#: of taggy.utils.file_utils.perform_file_operation:5
+msgid "Destination directory path."
+msgstr "Ścieżka katalogu docelowego."
+
+#: of taggy.utils.file_utils.perform_file_operation:7
+msgid "Type of operation ('copy', 'symlink', etc.)."
+msgstr "Typ operacji (\"kopia\", \"dowiązanie symboliczne\" itp.)."
+
+#: of taggy.utils.file_utils.perform_file_operation:9
+#: taggy.utils.file_utils.perform_file_operation:11
+msgid "Used if creating a shortcut. Defaults to None."
+msgstr "Używane podczas tworzenia skrótu. Domyślnie ustawiona na Brak."
+
+#: of taggy.utils.file_utils.preprocess_image:1
+msgid ""
+"Opens and preprocesses a single image using the provided CLIP preprocess "
+"pipeline."
+msgstr ""
+"Otwiera i wstępnie przetwarza pojedynczy obraz przy użyciu dostarczonego "
+"potoku wstępnego przetwarzania CLIP."
+
+#: of taggy.utils.file_utils.preprocess_image:5
+msgid "The CLIP preprocess transform."
+msgstr "Przekształcenie wstępne CLIP."
+
+#: of taggy.utils.file_utils.preprocess_image:7
+msgid "'cpu' or 'cuda'."
+msgstr "'cpu' lub 'cuda'."
+
+#: of taggy.utils.file_utils.preprocess_image:10
+msgid "The preprocessed image on the appropriate device.z"
+msgstr "Wstępnie przetworzony obraz na odpowiednim urządzeniu.z"
+
+#: of taggy.utils.file_utils.save_metadata_to_json:1
+msgid "Saves metadata to a JSON file."
+msgstr "Zapisuje metadane do pliku JSON."
+
+#: of taggy.utils.file_utils.save_metadata_to_json:3
+msgid "Metadata to be saved."
+msgstr "Metadane do zapisania."
+
+#: of taggy.utils.file_utils.save_metadata_to_json:5
+msgid "Path to the output JSON file."
+msgstr "Ścieżka do wyjściowego pliku JSON."
+
+#: ../source/modules.rst:30
+msgid "utils.logger"
+msgstr "utils.logger"
+
+#: of taggy.utils.logger.CustomFormatter:1
+msgid "Klasy bazowe: :py:class:`~logging.Formatter`"
+msgstr "Klasy bazowe: :py:class:`~logging.Formatter`"
+
+#: of taggy.utils.logger.CustomFormatter:1
+msgid ""
+"Custom logging formatter to add colors to log messages based on their "
+"severity level."
+msgstr ""
+"Niestandardowy formatyzator logowania dodający kolory do komunikatów "
+"dziennika w oparciu o ich poziom ważności."
+
+#: of taggy.utils.logger.CustomFormatter.format:1
+msgid "Format the specified record as text."
+msgstr "Formatuje określony rekord jako tekst."
+
+#: of taggy.utils.logger.CustomFormatter.format:3
+msgid "The log record to be formatted."
+msgstr "Rekord dziennika do sformatowania."
+
+#: of taggy.utils.logger.CustomFormatter.format:6
+msgid "The formatted log message with color."
+msgstr "Sformatowany komunikat dziennika z kolorem."
+
+#: of taggy.utils.logger.get_logger:1
+msgid "Get a logger with the specified name."
+msgstr "Pobiera rejestrator o podanej nazwie."
+
+#: of taggy.utils.logger.get_logger:3
+msgid "The name of the logger."
+msgstr "Nazwa rejestratora."
+
+#: of taggy.utils.logger.get_logger:6
+msgid "The logger instance."
+msgstr "Instancja rejestratora."
+
+#: of taggy.utils.logger.show_example_logs:1
+msgid "Generate example log messages of various severity levels."
+msgstr ""
+"Generowanie przykładowych komunikatów dziennika o różnych poziomach "
+"ważności."
+
+#~ msgid "Klasy bazowe: :py:class:`object`"
+#~ msgstr "Klasy bazowe: :py:class:`object`"

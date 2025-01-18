@@ -6,13 +6,32 @@
 Taggy documentation
 ===================
 
-Add your content using ``reStructuredText`` syntax. See the
-`reStructuredText <https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html>`_
-documentation for details.
+Dependencies
+============
+
+Your project requires the following Python packages to function:
+
+- **torch**: Used for loading models from `torch.hub`.
+- **torchvision**: Provides pre-trained models.
+- **click**: Command-line interface support.
+- **rich**: For enhanced logging.
+- **numpy** and **pillow**: For loading and handling images.
+- **opencv-python**: For simple image analysis, such as sharpness or face detection.
+
+Additional tools for documentation and translations:
+
+- **Sphinx** and its extensions: `sphinx-click`, `sphinx-intl`, `myst-parser`.
+- **Furo**: Modern documentation theme.
+- **pypandoc**: For exporting documentation to DOCX.
+
+Special models and utilities:
+
+- **CLIP**: Main model for image analysis (from OpenAI).
+- Optional: `tensorflow` and `toml` for additional model support.
 
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 5
    :caption: Spis treści:
 
    modules

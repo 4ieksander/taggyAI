@@ -1,25 +1,23 @@
-
 CLI – Taggy
 ===========
 .. automodule:: taggy.utils.image_tagger
-    :members:
-    :undoc-members:
-    :show-inheritance:
+    :no-index:
 
 .. click:: taggy.taggy_cli:cli
    :prog: taggy_cli
    :nested: full
 
 Image Tagger – Taggy
-============
+====================
 
 .. automodule:: taggy.utils.image_tagger
    :members:
    :undoc-members:
-   :show-inheritance:
+   :private-members:
+   :special-members: __init__
 
 Moduły pomocnicze
-===========
+====================
 utils.file_utils
 ----------------
 

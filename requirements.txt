@@ -1,11 +1,22 @@
-torch   # for torch.hub
-#tensorflow  # for other models than CLIP
-torchvision # for torchvision.models
-click   # for command line interface
-rich    # for logging
-#toml  # for poetry config file
-numpy   # for image loading
-pillow # for image loading
-git+https://github.com/openai/CLIP.git # for CLIP (main model for analyzing images)
-opencv-python # for simple analysis quality of images (sharpness, detecting faces)
-# sphinx sphinx-click sphinx-intl myst-parser furo sphinx-rtd-theme deepl # for documentation + translate
+torch                # for torch.hub
+torchvision          # for torchvision.models
+click                # for command line interface
+rich                 # for logging
+numpy                # for image loading
+pillow               # for image loading
+opencv-python        # for simple analysis quality of images (sharpness, detecting faces)
+
+git+https://github.com/openai/CLIP.git  # for CLIP (image analysis)
+
+
+# Additional (for documentation)
+################################
+#sphinx               # for documentation
+#sphinx-click         # for CLI documentation
+#sphinx-intl          # for translations
+#myst-parser          # for Markdown support
+#furo                 # for modern documentation theme
+#sphinx-rtd-theme     # optional, for alternate theme
+#deepl                # for translation (optional)
+#pypandoc             # for exporting to DOCX
+#dotenv               # for environment variables

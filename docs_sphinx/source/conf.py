@@ -20,8 +20,25 @@ release = 'v1.0'
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.napoleon', 'sphinx.ext.viewcode', 'sphinx_click', 'myst_parser']
+extensions = [
+    'sphinx.ext.autodoc',
+    'sphinx.ext.napoleon',
+    'sphinx.ext.viewcode',
+    'sphinx_click',
+    'sphinx.ext.intersphinx'
+    ]
 
+intersphinx_mapping = {
+    'python': ('https://docs.python.org/3', None),
+    'numpy': ('https://numpy.org/doc/stable/', None),
+    'pillow': ('https://pillow.readthedocs.io/en/stable/', None),
+    'torch': ('https://pytorch.org/docs/stable/', None),
+    'torchvision': ('https://pytorch.org/vision/stable/', None),
+    'opencv': ('https://docs.opencv.org/4.x/', None),
+    'click': ('https://click.palletsprojects.com/en/8.1.x/', None),
+    'rich': ('https://rich.readthedocs.io/en/stable/', None),
+    'clip': ('https://github.com/openai/CLIP', None),
+}
 
 templates_path = ['_templates']
 exclude_patterns = []
