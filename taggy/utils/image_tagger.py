@@ -1,14 +1,13 @@
 """
 Module that provides both synchronous functionality for:
-- Tagging images using CLIP
-- Searching for images by similarity to a text query
-- Finding and grouping duplicate images by embedding similarity
-- Proposing the best images in each group based on multiple metrics:
-  - Naive "sharpness" via Laplacian
-  - Face-detection-based sharpness
-- Optionally placing non-duplicates in a 'non_duplicates' folder
-- Saving grouping results to JSON
-
+    - Tagging images using CLIP
+    - Searching for images by similarity to a text query
+    - Finding and grouping duplicate images by embedding similarity
+    - Proposing the best images in each group based on multiple metrics:
+          - Naive "sharpness" via Laplacian
+          - Face-detection-based sharpness
+    - Optionally placing non-duplicates in a 'non_duplicates' folder
+    - Saving grouping results to JSON
 """
 
 import os
@@ -23,13 +22,13 @@ try:
 except ImportError:
     cv2 = None
 
-from .file_utils import (
+from file_utils import (
     create_directory, perform_file_operation,
     save_metadata_to_json,
     list_supported_image_files,
     preprocess_image
     )
-from .logger import get_logger
+from logger import get_logger
 
 
 logger = get_logger(__name__)

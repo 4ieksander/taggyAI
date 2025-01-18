@@ -16,12 +16,12 @@ Usage examples:
 import os
 import click
 
-from .utils.file_utils import (
+from utils.file_utils import (
     load_config, save_metadata_to_json,
     list_supported_image_files,
     )
-from .utils.logger import get_logger
-from .utils.image_tagger import ImageTagger
+from utils.logger import get_logger
+from utils.image_tagger import ImageTagger
 
 logger = get_logger(__name__)
 

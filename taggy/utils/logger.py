@@ -3,10 +3,6 @@ import logging
 class CustomFormatter(logging.Formatter):
     """
     Custom logging formatter to add colors to log messages based on their severity level.
-    
-    Attributes:
-        RESET (str): ANSI escape code to reset color.
-        COLORS (dict): Mapping of logging levels to their corresponding ANSI color codes.
     """
     RESET = "\033[0m"
     COLORS = {
