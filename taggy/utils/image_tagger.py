@@ -15,6 +15,7 @@ import click
 import torch
 import clip
 import numpy as np
+from IPython.lib.deepreload import found_now
 from PIL import Image
 
 try:
@@ -22,13 +23,13 @@ try:
 except ImportError:
     cv2 = None
 
-from file_utils import (
+from .file_utils import (
     create_directory, perform_file_operation,
     save_metadata_to_json,
     list_supported_image_files,
     preprocess_image
     )
-from logger import get_logger
+from .logger import get_logger
 
 
 logger = get_logger(__name__)
@@ -145,7 +146,7 @@ class ImageTagger:
         if len(image_files) == 0 or image_tensors.shape[0] == 0:
             logger.warning("No images to search in (sync).")
             return []
-        
+        logger.info(f"Searching for '{query}' in {len(image_files)} images ...")
         with torch.no_grad():
             image_features = self.model.encode_image(image_tensors).float()
         text_inputs = clip.tokenize([query]).to(self.device)
