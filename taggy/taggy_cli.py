@@ -15,6 +15,7 @@ Usage examples:
 
 import os
 import click
+from click import pass_context
 
 from utils.file_utils import (
     load_config, save_metadata_to_json,
@@ -111,7 +112,7 @@ def find_duplicates_cmd(ctx, images_path, output_folder, labels, operation, simi
               help="List of labels used for tagging (if not provided, uses default).")
 @click.option("--one-output-json", type=click.Path(), default=None,
               help="If provided, saves tags per every file to one provided JSON file.")
-@click.option("--operation", "-op", type=click.Choice(['copy', 'symlink']),
+@click.option("--operation", "-op", type=click.Choice(['copy', 'symlink', 'move']),
                 default="symlink",  help="File operation to perform. Grouped by detected labels, "
                                          "working with --output-folder parameter. Default is 'symlink'.")
 @click.option("--images-output-folder", "-o", type=click.Path(),
@@ -131,6 +132,8 @@ def tag_images_cmd(ctx, images_path, threshold, top_k, labels, operation,
     if not labels:
         labels = ctx.obj['labels']
     
+    if operation == "move":
+        top_k = 1
     click.echo(f"Operation: {operation}, Labels: {labels}")
     click.echo(f"Tagging images in {images_path} with threshold={threshold}, top_k={top_k}.")
     tagger = ImageTagger(model_name="CLIP", labels=labels)
@@ -194,6 +197,39 @@ def search_images_cmd(images_path, query, top_k, output_folder, operation):
     click.echo(f"Top {top_k} results for '{query}':")
     for i, (img_path, score) in enumerate(results):
         click.echo(f"{i+1}. {img_path} => similarity={score:.4f}")
+
+
+@cli.command("class_selection")
+@click.option("--images-path", "-i", type=click.Path(exists=True), required=True,
+              help="Path to the folder containing images.")
+@click.option("--output-folder", "-o", type=click.Path(),
+                help="Folder to place grouped images.")
+@click.option("--labels", "-l",  multiple=True,
+                help="List of (classes/labels) used for grouping names of duplicates (if not provided, uses default).")
+@click.option("--operation", "-op", type=click.Choice(['copy', 'symlink', 'move']),
+                help="File operation to perform when grouping images.")
+@click.option("--threshold", "-t", default=0.8, type=float,
+                help="Minimum probability threshold for assigning a label.")
+@click.option("--top-k", "-k", type=int, default=100,)
+@pass_context
+def class_selection_cmd(ctx, images_path, output_folder, labels, operation, threshold, top_k):
+    """
+    Groups images based on their class (label) using the CLIP model.
+    """
+    click.echo(f"Classifying images in {images_path} ...")
+    directories = os.listdir(images_path)
+    print(directories)
+    for directory in directories:
+        input_directory = os.path.join(images_path, directory)
+        
+        click.echo(type(directory))
+        click.echo(f"Directory: {directory}")
+        click.echo(f"is dir? {os.path.isdir(directory)}")
+        if os.path.isdir(input_directory):
+            output_directory = os.path.join(output_folder, directory)
+            click.echo(f"Classifying images in {input_directory} ...")
+            ctx.invoke(search_images_cmd, images_path=input_directory, query=directory, top_k=top_k, output_folder=output_directory, operation=operation)
+    logger.info("Done classifying images.")
 
 
 if __name__ == "__main__":

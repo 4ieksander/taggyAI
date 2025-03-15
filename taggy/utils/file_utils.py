@@ -93,7 +93,7 @@ def create_shortcut(target, shortcut_path, description=None, icon_path=None):
         shortcut.IconLocation = icon_path
     shortcut.save()
 
-def perform_file_operation(src, dest_dir, operation, description=None, icon_path=None):
+def perform_file_operation(src, dest_dir, operation, description=None, icon_path=None, filename=None):
     """
     Performs a file operation (copy or symlink/shortcut) from src to dest_dir.
 
@@ -118,7 +118,9 @@ def perform_file_operation(src, dest_dir, operation, description=None, icon_path
         else:
             # Unix symlink
             os.symlink(src, dest)
-
+    if filename:
+        os.rename(dest, os.path.join(dest_dir, filename))
+        
 def save_metadata_to_json(metadata, output_file):
     """
     Saves metadata to a JSON file.

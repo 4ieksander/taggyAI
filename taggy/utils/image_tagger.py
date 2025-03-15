@@ -160,8 +160,12 @@ class ImageTagger:
         sorted_indices = np.argsort(similarities)[::-1][:top_k]
         results = [(image_files[idx], float(similarities[idx])) for idx in sorted_indices]
         if output_path and results:
-            for img_path, _ in results:
-                perform_file_operation(img_path, output_path, operation)
+            for img_path, score in results:
+                if top_k > 10:
+                    filename = f"{score:.4f}_{os.path.basename(img_path)}"
+                else:
+                    filename = os.path.basename(img_path)
+                perform_file_operation(img_path, output_path, operation, filename=filename)
             logger.info(f"Files saved to {output_path} with operation: {operation}")
         return results
     
