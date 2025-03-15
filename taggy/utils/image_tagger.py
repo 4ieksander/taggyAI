@@ -15,7 +15,6 @@ import click
 import torch
 import clip
 import numpy as np
-from IPython.lib.deepreload import found_now
 from PIL import Image
 
 try:
