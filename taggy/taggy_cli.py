@@ -267,21 +267,23 @@ def dataset_find_duplicates_cmd(ctx, input_dataset_path, output_folder, labels, 
         if len(files) > 0:
             click.echo(f'{len(files)} \t|\t {os.path.basename(root)}')
             classes.append((os.path.basename(root), root))
-    click.echo(f"Operation: {operation}, \nThreshold: {similarity_threshold}, \nInput: {input_dataset_path}, \nOutput: {output_folder}")
+    click.echo(f'Operation: {operation}, \tThreshold: {similarity_threshold}, \t{"Propose best" if propose_best else ""}\nInput: {input_dataset_path}, \nOutput: {output_folder}')
     if input("Send Y to continue:\t").lower() != "y":
         return
     for data_class in classes:
         class_name, path = data_class
+        output_path = os.path.join(output_folder, class_name)
+        logger.info(f"Finding duplicates for class {class_name.upper()} with threshold={similarity_threshold}...")
         tagger = ImageTagger(model_name="CLIP", labels=labels)
         duplicates = tagger.find_duplicates(images_path=path, similarity_threshold=similarity_threshold)
         if not duplicates:
-            click.echo(f"No duplicates found for class {class_name}.")
+            logger.warning(f"No duplicates found for class {class_name}.")
             return
         logger.info(f"Found {len(duplicates)} duplicate groups.")
         all_images = list_supported_image_files(input_dataset_path)
         tagger.group_duplicates(
             duplicates=duplicates,
-            output_folder= output_folder,
+            output_folder= output_path,
             operation=operation,
             propose_best=propose_best,
             all_images=all_images if operation in ["copy", "symlink"] else None,

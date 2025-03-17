@@ -146,18 +146,23 @@ class ImageTagger:
             logger.warning("No images to search in (sync).")
             return []
         logger.info(f"Searching for '{query}' in {len(image_files)} images ...")
-        with torch.no_grad():
-            image_features = self.model.encode_image(image_tensors).float()
-        text_inputs = clip.tokenize([query]).to(self.device)
-        with torch.no_grad():
-            text_features = self.model.encode_text(text_inputs).float()
+        image_features = self._extract_features(image_tensors, features_type="image", batch_size=32)
         
+        
+        text_inputs = clip.tokenize([query]).to(self.device)
+        text_features = self._extract_features(text_inputs, features_type="text", batch_size=32)
+        
+        # Normalization of vectors
         image_features /= image_features.norm(dim=-1, keepdim=True)
         text_features /= text_features.norm(dim=-1, keepdim=True)
         
-        similarities = (text_features @ image_features.T).squeeze(0).cpu().numpy()
+        # Image-text similarities
+        similarities = (text_features @ image_features.T).squeeze(0).numpy()
+        
+        # Sortowanie wyników i wybór najlepszych
         sorted_indices = np.argsort(similarities)[::-1][:top_k]
         results = [(image_files[idx], float(similarities[idx])) for idx in sorted_indices]
+        
         if output_path and results:
             for img_path, score in results:
                 if top_k > 10:
@@ -187,15 +192,15 @@ class ImageTagger:
         Returns:
             list[tuple[str, str, float]]: A list of tuples where each tuple contains two image paths and their similarity score.
         """
-        logger.info("Checking duplicates (sync) ...")
+        # logger.info("Checking duplicates (sync) ...")
         image_files, image_tensors = self._load_images(images_path)
         if len(image_files) == 0 or image_tensors.shape[0] == 0:
             logger.warning("No images found for duplicate checking (sync).")
             return []
         
-        logger.info(f"Loaded {len(image_files)} images for duplicate checking.")
-        with torch.no_grad():
-            image_features = self.model.encode_image(image_tensors).float()
+        logger.info(f"Loaded {len(image_files)} images for detecting duplicates.")
+        image_features = self._extract_features(image_tensors, features_type="image", batch_size=32)
+
         
         logger.info("Image features extracted.")
         image_features /= image_features.norm(dim=-1, keepdim=True)
@@ -373,8 +378,33 @@ class ImageTagger:
             return [], torch.empty(0)
         
         return image_files, torch.cat(images)
-
     
+    
+    # ---------------------------------------
+    # Helper methods for commands "duplicates" and "search"
+    # ---------------------------------------
+    def _extract_features(self, image_tensors, features_type="image", batch_size=32):
+        """
+        Extracts image features using the CLIP model (synchronously).
+        """
+        features = []
+        num_images = image_tensors.size(0)
+        
+        with click.progressbar(range(0, num_images, batch_size), label=f"Extracting {features_type} features") as bar:
+            for start_idx in bar:
+                end_idx = min(start_idx + batch_size, num_images)
+                batch = image_tensors[start_idx:end_idx].to(self.device)
+                
+                with torch.no_grad():
+                    if features_type == "image":
+                        batch_features = self.model.encode_image(batch).float().cpu()
+                    elif features_type == "text":
+                        batch_features = self.model.encode_text(batch).float().cpu()
+                    else:
+                        raise ValueError(f"Unsupported features type: {features_type}")
+                    features.append(batch_features)
+        
+        return torch.cat(features)
     
     # ---------------------------------------
     # Helper methods for command "duplicates"
