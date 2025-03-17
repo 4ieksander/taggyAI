@@ -259,6 +259,14 @@ class ImageTagger:
             "non_duplicates": []
             }
         
+        # Identify and log folders with most duplicates
+        if group_records:
+            max_duplicates = max(len(grp["images"]) for grp in group_records)
+            largest_groups = [grp for grp in group_records if len(grp["images"]) == max_duplicates]
+            
+            folder_names = [grp["folder_name"] for grp in largest_groups]
+            logger.info(f"Folders with the most duplicates ({max_duplicates} images each): {folder_names}")
+        
         if all_images:
             duplicates_files = set()
             for images_ in grouped.values():
@@ -280,11 +288,11 @@ class ImageTagger:
                             })
                     else:
                         results_data["non_duplicates"].append({"path": image_path})
-                        
+                
                 logger.info(f"Non-duplicates placed in {non_dup_folder}")
                 if output_folder:
                     save_metadata_to_json(results_data, os.path.join(non_dup_folder, "non_duplicates.json"))
-        
+    
     
     # ---------------------------------------
     # Helper method used by commands "tag", "search" and "duplicates"
@@ -378,6 +386,8 @@ class ImageTagger:
                                   propose_best: bool = True,
                                   best_scoring_method: str = "advanced"):
         """
+        Processes each group to select and copy best-scoring image to a separate folder,
+            alongside existing grouping operations.
         Processes each group to:
         - Find the most common tag
         - Optionally measure quality to pick best images
@@ -393,18 +403,18 @@ class ImageTagger:
         Returns:
             list[dict]: A list of group records with info about images & best images
         """
+        best_folder = os.path.join(output_folder, "best_from_duplicates")
+        os.makedirs(best_folder, exist_ok=True)
+        
         group_records = []
         for group_id, images_ in grouped.items():
-            # gather tags
             tag_samples = []
             for image_path in images_:
                 tags = self._generate_tags(image_path)
                 tag_samples.extend(tags)
-            most_common_tag = "group"
-            if tag_samples:
-                most_common_tag = max(set(tag_samples), key=tag_samples.count)
             
-            # measure quality
+            most_common_tag = max(set(tag_samples), key=tag_samples.count) if tag_samples else "group"
+            
             scored_images = []
             if propose_best:
                 for image_path in images_:
@@ -418,42 +428,47 @@ class ImageTagger:
                     scored_images.append((image_path, score))
                 scored_images.sort(key=lambda x: x[1], reverse=True)
                 best_images = scored_images[:3]
+                
+                best_image_path, best_image_score = scored_images[0]
+                perform_file_operation(best_image_path, best_folder, operation)
             else:
                 best_images = []
             
-            # create group subfolder
             folder_name = f"{most_common_tag}_{group_id}"
             group_folder = os.path.join(output_folder, folder_name)
             os.makedirs(group_folder, exist_ok=True)
             
-            # move/copy/symlink images
             group_images_info = []
-            if propose_best:
-                for (img_path, q) in scored_images:
-                    perform_file_operation(img_path, group_folder, operation)
-                    group_images_info.append({"path": img_path, "score": q})
-            else:
-                for img_path in images_:
-                    perform_file_operation(img_path, group_folder, operation)
-                    group_images_info.append({"path": img_path})
-            if output_folder:
-                logger.info(f"Group {group_id} ({len(images_)} images) => {group_folder}")
+            images_to_operate = scored_images if propose_best else [(p, None) for p in images_]
+            
+            for img_path, q in images_to_operate:
+                perform_file_operation(img_path, group_folder, operation)
+                img_info = {"path": img_path}
+                if q is not None:
+                    img_info["score"] = q
+                group_images_info.append(img_info)
+            
+            logger.info(f"Group {group_id} ({len(images_)} images) => {group_folder}")
+            
             record = {
                 "group_id":    group_id,
                 "tag":         most_common_tag,
                 "folder_name": folder_name,
                 "images":      group_images_info
                 }
+            
             if best_images:
                 record["best_images"] = [
                     {"path": img_path, "score": score}
                     for (img_path, score) in best_images
                     ]
+            
             group_records.append(record)
         
         logger.info(f"Operation on files: {operation}")
         if output_folder and group_records:
             save_metadata_to_json(group_records, os.path.join(output_folder, "grouped_images.json"))
+        
         return group_records
     
     

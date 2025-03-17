@@ -124,7 +124,7 @@ def find_duplicates_cmd(ctx, images_path, output_folder, labels, operation, simi
 def tag_images_cmd(ctx, images_path, threshold, top_k, labels, operation,
                    one_output_json, create_many_output_jsons, images_output_folder):
     """
-    Assigns labels to each image in images_path using the CLIP model.
+    Assigns labels to each image in input_dataset_path using the CLIP model.
     """
     defaults = ctx.obj['defaults']
     if not operation:
@@ -204,17 +204,16 @@ def search_images_cmd(images_path, query, top_k, output_folder, operation):
               help="Path to the folder containing images.")
 @click.option("--output-folder", "-o", type=click.Path(),
                 help="Folder to place grouped images.")
-@click.option("--labels", "-l",  multiple=True,
-                help="List of (classes/labels) used for grouping names of duplicates (if not provided, uses default).")
 @click.option("--operation", "-op", type=click.Choice(['copy', 'symlink', 'move']),
                 help="File operation to perform when grouping images.")
 @click.option("--threshold", "-t", default=0.8, type=float,
                 help="Minimum probability threshold for assigning a label.")
-@click.option("--top-k", "-k", type=int, default=100,)
+@click.option("--top-k", "-k", type=int, required=True,
+              help="Number of top images to return.")
 @pass_context
-def class_selection_cmd(ctx, images_path, output_folder, labels, operation, threshold, top_k):
+def class_selection_cmd(ctx, images_path, output_folder, operation, top_k):
     """
-    Groups images based on their class (label) using the CLIP model.
+    Select best images per class grouped in directiories (for every directory in path call taggy "search" with class name as query
     """
     click.echo(f"Classifying images in {images_path} ...")
     directories = os.listdir(images_path)
@@ -230,6 +229,66 @@ def class_selection_cmd(ctx, images_path, output_folder, labels, operation, thre
             click.echo(f"Classifying images in {input_directory} ...")
             ctx.invoke(search_images_cmd, images_path=input_directory, query=directory, top_k=top_k, output_folder=output_directory, operation=operation)
     logger.info("Done classifying images.")
+
+
+@cli.command("dataset_duplicates")
+@click.option("--input-dataset-path", "-i", type=click.Path(exists=True), required=True,
+              help="Path to the folder containing images.")
+@click.option("--output-folder", "-o", type=click.Path(),
+                help="Folder to place grouped duplicates.")
+@click.option("--labels", "-l",  multiple=True,
+                help="List of labels used for grouping names of duplicates (if not provided, uses directories (classes) names ).")
+@click.option("--operation", "-op", type=click.Choice(['copy', 'symlink', 'move']),
+                help="File operation(s) to perform when grouping duplicates.")
+@click.option("--similarity-threshold", "-t", default=0.98, type=float,
+                help="Threshold (0..1) for considering images duplicates.")
+@click.option("--propose-best", "-b", is_flag=True,
+                help="If provided, proposes 'best' images to keep in each group.")
+@pass_context
+def dataset_find_duplicates_cmd(ctx, input_dataset_path, output_folder, labels, operation, similarity_threshold, propose_best):
+    """
+    Finds and groups duplicate images based on their embedding similarity.
+    Then organizes them into subfolders, picking 'best images' if desired.
+    """
+    defaults = ctx.obj['defaults']
+    if not operation:
+        operation = defaults.get("operation", "symlink")
+    if not labels:
+        labels = os.listdir(input_dataset_path)
+        print(labels)
+        if not labels:
+            logger.error("No labels found in the given folder.")
+            return
+    classes_paths = os.walk(input_dataset_path)
+    click.echo("CLASSES:\n"
+                "Count \t|\tClass")
+    classes = []
+    for root, dirs, files in classes_paths:
+        if len(files) > 0:
+            click.echo(f'{len(files)} \t|\t {os.path.basename(root)}')
+            classes.append((os.path.basename(root), root))
+    click.echo(f"Operation: {operation}, \nThreshold: {similarity_threshold}, \nInput: {input_dataset_path}, \nOutput: {output_folder}")
+    if input("Send Y to continue:\t").lower() != "y":
+        return
+    for data_class in classes:
+        class_name, path = data_class
+        tagger = ImageTagger(model_name="CLIP", labels=labels)
+        duplicates = tagger.find_duplicates(images_path=path, similarity_threshold=similarity_threshold)
+        if not duplicates:
+            click.echo(f"No duplicates found for class {class_name}.")
+            return
+        logger.info(f"Found {len(duplicates)} duplicate groups.")
+        all_images = list_supported_image_files(input_dataset_path)
+        tagger.group_duplicates(
+            duplicates=duplicates,
+            output_folder= output_folder,
+            operation=operation,
+            propose_best=propose_best,
+            all_images=all_images if operation in ["copy", "symlink"] else None,
+            best_scoring_method='laplacian',
+        )
+    
+
 
 
 if __name__ == "__main__":

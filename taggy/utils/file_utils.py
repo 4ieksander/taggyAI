@@ -38,7 +38,7 @@ def load_config(config_file: str = "config.ini"):
     else:
         logger.warning(f"Config file '{config_file}' does not exist. Using default in-code values.")
         config["DEFAULT"] = {
-            "images_path": "./images",
+            "input_dataset_path": "./images",
             "labels": "people, documents, gadgets, cables, festivals, work, pets, random, nature, food, travel, architecture, art",
             "operation": "copy",
             "threshold": "0.3",
