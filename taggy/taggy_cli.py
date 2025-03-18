@@ -206,12 +206,12 @@ def search_images_cmd(images_path, query, top_k, output_folder, operation):
                 help="Folder to place grouped images.")
 @click.option("--operation", "-op", type=click.Choice(['copy', 'symlink', 'move']),
                 help="File operation to perform when grouping images.")
-@click.option("--threshold", "-t", default=0.8, type=float,
-                help="Minimum probability threshold for assigning a label.")
 @click.option("--top-k", "-k", type=int, required=True,
               help="Number of top images to return.")
+@click.option("--additional-string", "-s", type=str, default="",
+              help="Additional string to add to the query.")
 @pass_context
-def class_selection_cmd(ctx, images_path, output_folder, operation, top_k):
+def class_selection_cmd(ctx, images_path, output_folder, operation, top_k, additional_string):
     """
     Select best images per class grouped in directiories (for every directory in path call taggy "search" with class name as query
     """
@@ -220,14 +220,11 @@ def class_selection_cmd(ctx, images_path, output_folder, operation, top_k):
     print(directories)
     for directory in directories:
         input_directory = os.path.join(images_path, directory)
-        
-        click.echo(type(directory))
-        click.echo(f"Directory: {directory}")
-        click.echo(f"is dir? {os.path.isdir(directory)}")
         if os.path.isdir(input_directory):
             output_directory = os.path.join(output_folder, directory)
+            query = f"{directory} {additional_string}" if additional_string else directory
             click.echo(f"Classifying images in {input_directory} ...")
-            ctx.invoke(search_images_cmd, images_path=input_directory, query=directory, top_k=top_k, output_folder=output_directory, operation=operation)
+            ctx.invoke(search_images_cmd, images_path=input_directory, query=query, top_k=top_k, output_folder=output_directory, operation=operation)
     logger.info("Done classifying images.")
 
 
@@ -264,7 +261,7 @@ def dataset_find_duplicates_cmd(ctx, input_dataset_path, output_folder, labels, 
                 "Count \t|\tClass")
     classes = []
     for root, dirs, files in classes_paths:
-        if len(files) > 0:
+        if len(files) > 0 and os.path.basename(root) in labels:
             click.echo(f'{len(files)} \t|\t {os.path.basename(root)}')
             classes.append((os.path.basename(root), root))
     click.echo(f'Operation: {operation}, \tThreshold: {similarity_threshold}, \t{"Propose best" if propose_best else ""}\nInput: {input_dataset_path}, \nOutput: {output_folder}')
