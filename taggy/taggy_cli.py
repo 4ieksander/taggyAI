@@ -208,10 +208,12 @@ def search_images_cmd(images_path, query, top_k, output_folder, operation):
                 help="File operation to perform when grouping images.")
 @click.option("--top-k", "-k", type=int, required=True,
               help="Number of top images to return.")
-@click.option("--additional-string", "-s", type=str, default="",
+@click.option("--additional-string-before-class", "-before", type=str, default="",
+              help="Additional string to add to the query.")
+@click.option("--additional-string-after-class", "-after", type=str, default="",
               help="Additional string to add to the query.")
 @pass_context
-def class_selection_cmd(ctx, images_path, output_folder, operation, top_k, additional_string):
+def class_selection_cmd(ctx, images_path, output_folder, operation, top_k, additional_string_before_class, additional_string_after_class):
     """
     Select best images per class grouped in directiories (for every directory in path call taggy "search" with class name as query
     """
@@ -222,7 +224,8 @@ def class_selection_cmd(ctx, images_path, output_folder, operation, top_k, addit
         input_directory = os.path.join(images_path, directory)
         if os.path.isdir(input_directory):
             output_directory = os.path.join(output_folder, directory)
-            query = f"{directory} {additional_string}" if additional_string else directory
+            query_part = f"{additional_string_before_class} {directory}" if additional_string_before_class else directory
+            query = f"{query_part} {additional_string_after_class}" if additional_string_after_class else query_part
             click.echo(f"Classifying images in {input_directory} ...")
             ctx.invoke(search_images_cmd, images_path=input_directory, query=query, top_k=top_k, output_folder=output_directory, operation=operation)
     logger.info("Done classifying images.")
